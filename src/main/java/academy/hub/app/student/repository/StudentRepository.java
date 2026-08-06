@@ -13,6 +13,7 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     Optional<Student> findById(UUID id);
     UUID findByFirstName(String firstName);
+    Optional<Student> findByEmail(String email);
 
 
 }

@@ -3,6 +3,7 @@ package academy.hub.app.student.services;
 
 import academy.hub.app.student.dtos.StudentCreateRequest;
 import academy.hub.app.student.dtos.StudentCreateResponse;
+import academy.hub.app.student.exceptions.StudentWithThisEmailAlreadyExists;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,10 @@ public class StudentCommandServiceImpl {
         this.studentRepository = studentRepository;
     }
 
-    StudentCreateResponse addStudent(StudentCreateRequest studentCreateRequest){
+    StudentCreateResponse addStudent(StudentCreateRequest studentCreateRequest) throws StudentWithThisEmailAlreadyExists {
+        if(studentRepository.findByEmail(studentCreateRequest.email()).isPresent()){
+            throw new StudentWithThisEmailAlreadyExists();
+        }
         Student newStudent = new Student(studentCreateRequest.firstName(),
                 studentCreateRequest.lastName(),
                 studentCreateRequest.email(),
@@ -26,7 +30,7 @@ public class StudentCommandServiceImpl {
         return new StudentCreateResponse(newStudent.getId(), newStudent.getFirstName(), newStudent.getLastName(), newStudent.getEmail(), newStudent.getAge());
 
     }
-
+    
 
 
 }
