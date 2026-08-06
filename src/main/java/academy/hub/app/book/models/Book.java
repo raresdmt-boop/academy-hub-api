@@ -7,11 +7,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
 @Entity(name="Book")
 @Table(name="book")
 public class Book {
@@ -24,7 +24,6 @@ public class Book {
     private String name;
     private LocalDate createdAt;
 
-    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="student_id")
     private Student student;
@@ -37,17 +36,20 @@ public class Book {
         this.createdAt = createdAt;
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if ( ! (o instanceof Book other) )return false;
-        return id != null
-                && id.equals(other.getId());
+        if (!(o instanceof Book book)) return false;
+        return Objects.equals(id, book.id);
     }
+
+
 
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public String toString() {
+        return "Book{" +
+                "name='" + name + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
-
 }

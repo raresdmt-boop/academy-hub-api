@@ -7,28 +7,24 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
-@ToString
+
 @Entity(name="Student")
 @Table(name="student")
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long UUID;
+    private UUID id;
 
     private String firstName;
     private String lastName;
     private String email;
     private int age;
 
-    @ToString.Exclude
     @OneToMany(mappedBy = "student",
     cascade = CascadeType.ALL,
     fetch = FetchType.LAZY,
@@ -56,8 +52,21 @@ public class Student {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Student student)) return false;
+        return Objects.equals(id, student.id);
+    }
 
 
-
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", books=" + books +
+                '}';
+    }
 }

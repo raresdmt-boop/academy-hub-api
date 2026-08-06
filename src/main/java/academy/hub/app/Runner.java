@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class Runner implements CommandLineRunner {
@@ -85,9 +86,24 @@ public class Runner implements CommandLineRunner {
     }
 
     void testQueries(){
+        banner("test start");
         List<Book> books = bookRepo.findAll();
         for(Book book : books){
             System.out.println(book + " " + book.getStudent());
         }
+
+        List<Student> students = studentRepo.findAll();
+        for(Student student : students){
+            System.out.println(student);
+        }
+        banner("find by id");
+        UUID id = studentRepo.findByFirstName("Rares");
+        Student s = studentRepo.findById(id).orElseThrow();
     }
+
+    public void banner(String title){
+        System.out.println("==========="+title.toUpperCase()+"===========");
+    }
+
+
 }
