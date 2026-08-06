@@ -8,7 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,8 +20,8 @@ import java.util.List;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long UUID;
 
     private String firstName;
     private String lastName;
@@ -31,7 +33,7 @@ public class Student {
     cascade = CascadeType.ALL,
     fetch = FetchType.LAZY,
     orphanRemoval = true)
-    private List<Book> books = new ArrayList<>();
+    private Set<Book> books = new HashSet<>();
 
     public Student() {
     }
@@ -53,17 +55,7 @@ public class Student {
         book.setStudent(null);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if ( !(o instanceof Student other) ) return false;
-        return id != null && id.equals(other.id);
-    }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 
 
 
