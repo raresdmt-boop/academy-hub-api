@@ -3,15 +3,12 @@ package academy.hub.app.student.models;
 
 import academy.hub.app.book.models.Book;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.*;
 
-@Getter
-@Setter
 
+@Data
 @Entity(name="Student")
 @Table(name="student")
 public class Student {

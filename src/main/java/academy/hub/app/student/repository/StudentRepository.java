@@ -1,5 +1,7 @@
 package academy.hub.app.student.repository;
 
+import academy.hub.app.student.dtos.StudentCreateRequest;
+import academy.hub.app.student.dtos.StudentCreateResponse;
 import academy.hub.app.student.models.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,5 +13,6 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     Optional<Student> findById(UUID id);
     UUID findByFirstName(String firstName);
+
 
 }
