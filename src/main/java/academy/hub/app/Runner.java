@@ -2,6 +2,7 @@ package academy.hub.app;
 
 import academy.hub.app.book.models.Book;
 import academy.hub.app.book.repository.BookRepository;
+import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
 import jakarta.persistence.EntityManager;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class Runner implements CommandLineRunner {
@@ -96,9 +96,9 @@ public class Runner implements CommandLineRunner {
         for(Student student : students){
             System.out.println(student);
         }
-        banner("find by id");
-        UUID id = studentRepo.findByFirstName("Rares");
-        Student s = studentRepo.findById(id).orElseThrow();
+        banner("find by first name");
+        Student s = studentRepo.findByFirstName("Rares").orElseThrow(StudentNotFound::new);
+        System.out.println(s);
     }
 
     public void banner(String title){

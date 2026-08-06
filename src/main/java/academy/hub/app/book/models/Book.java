@@ -2,16 +2,16 @@ package academy.hub.app.book.models;
 
 import academy.hub.app.student.models.Student;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@Setter
 @Entity(name="Book")
 @Table(name="book")
 public class Book {
@@ -21,11 +21,20 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Setter
+    @NotBlank(message = "Book name is required")
+    @Column(nullable = false)
     private String name;
+
+    @Setter
+    @NotNull(message = "Created at is required")
+    @PastOrPresent(message = "Created at cannot be in the future")
+    @Column(nullable = false)
     private LocalDate createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="student_id")
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="student_id", nullable = false)
     private Student student;
 
     public Book() {
@@ -39,16 +48,22 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (!(o instanceof Book book)) return false;
-        return Objects.equals(id, book.id);
+        return id != null && id.equals(book.getId());
     }
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
 
     @Override
     public String toString() {
         return "Book{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

@@ -3,12 +3,17 @@ package academy.hub.app.student.services;
 
 import academy.hub.app.student.dtos.StudentCreateRequest;
 import academy.hub.app.student.dtos.StudentCreateResponse;
+import academy.hub.app.student.exceptions.EmailAlreadyUsed;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
-import org.springframework.stereotype.Component;
+import academy.hub.app.student.services.interfaces.StudentCommandService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
-@Component
-public class StudentCommandServiceImpl {
+@Service
+@Validated
+public class StudentCommandServiceImpl implements StudentCommandService {
 
     private final StudentRepository studentRepository;
 
@@ -16,17 +21,28 @@ public class StudentCommandServiceImpl {
         this.studentRepository = studentRepository;
     }
 
-    StudentCreateResponse addStudent(StudentCreateRequest studentCreateRequest){
-        Student newStudent = new Student(studentCreateRequest.firstName(),
+    @Override
+    @Transactional
+    public StudentCreateResponse addStudent(StudentCreateRequest studentCreateRequest) {
+
+        if (studentRepository.existsByEmail(studentCreateRequest.email())) {
+            throw new EmailAlreadyUsed();
+        }
+
+        Student newStudent = new Student(
+                studentCreateRequest.firstName(),
                 studentCreateRequest.lastName(),
                 studentCreateRequest.email(),
                 studentCreateRequest.age());
-        studentRepository.save(newStudent);
 
-        return new StudentCreateResponse(newStudent.getId(), newStudent.getFirstName(), newStudent.getLastName(), newStudent.getEmail(), newStudent.getAge());
+        Student saved = studentRepository.save(newStudent);
 
+        return new StudentCreateResponse(
+                saved.getId(),
+                saved.getFirstName(),
+                saved.getLastName(),
+                saved.getEmail(),
+                saved.getAge());
     }
-
-
 
 }
