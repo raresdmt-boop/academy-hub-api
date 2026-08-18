@@ -2,6 +2,7 @@ package academy.hub.app.student.models;
 
 
 import academy.hub.app.book.models.Book;
+import academy.hub.app.enrollment.models.Enrollment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -51,7 +52,13 @@ public class Student {
     orphanRemoval = true)
     private Set<Book> books = new HashSet<>();
 
-    public Student() {
+    @OneToMany(mappedBy = "student",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    private Set<Enrollment> enrollments = new HashSet<>();
+
+    protected Student() {
     }
 
     public Student(String firstName, String lastName, String email, int age) {
@@ -73,6 +80,20 @@ public class Student {
     public void removeBook(Book book) {
         books.remove(book);
         book.setStudent(null);
+    }
+
+    public Set<Enrollment> getEnrollments() {
+        return Collections.unmodifiableSet(enrollments);
+    }
+
+    public void addEnrollment(Enrollment enrollment) {
+        enrollments.add(enrollment);
+        enrollment.setStudent(this);
+    }
+
+    public void removeEnrollment(Enrollment enrollment) {
+        enrollments.remove(enrollment);
+        enrollment.setStudent(null);
     }
 
 

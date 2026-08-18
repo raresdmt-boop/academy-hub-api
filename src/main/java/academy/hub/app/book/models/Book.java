@@ -37,7 +37,7 @@ public class Book {
     @JoinColumn(name="student_id", nullable = false)
     private Student student;
 
-    public Book() {
+    protected Book() {
     }
 
     public Book(String name, LocalDate createdAt) {
