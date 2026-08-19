@@ -82,7 +82,6 @@ public class Runner implements CommandLineRunner {
 //        eqsTEST();
        // factoryTest();
 //        seed();
-//        seedBooks();
 
     }
 
@@ -486,59 +485,7 @@ public class Runner implements CommandLineRunner {
                 );
 
         }
-        void seedBooks(){
 
-                Student rares = studentQueryService
-                        .getByEmail("rares.dumitru@gmail.com")
-                        .orElseThrow();
-
-                Student maria = studentQueryService
-                        .getByEmail("maria.popescu@gmail.com")
-                        .orElseThrow();
-
-                Student andrei = studentQueryService
-                        .getByEmail("andrei.ionescu@gmail.com")
-                        .orElseThrow();
-
-                Student ana = studentQueryService
-                        .getByEmail("ana.dumitrescu@gmail.com")
-                        .orElseThrow();
-
-                Student mihai = studentQueryService
-                        .getByEmail("mihai.georgescu@gmail.com")
-                        .orElseThrow();
-
-                Student elena = studentQueryService
-                        .getByEmail("elena.stan@gmail.com")
-                        .orElseThrow();
-
-                LocalDate date = LocalDate.now();
-
-                rares.addBook(new Book("Effective Java", date));
-                rares.addBook(new Book("Clean Code", date));
-                rares.addBook(new Book("Spring Start Here", date));
-
-                maria.addBook(new Book("Head First Java", date));
-                maria.addBook(new Book("Learning SQL", date));
-
-                andrei.addBook(
-                        new Book("Java Concurrency in Practice", date)
-                );
-
-                ana.addBook(new Book("SQL Cookbook", date));
-                ana.addBook(new Book("Design Patterns", date));
-
-                mihai.addBook(new Book("Effective Java", date));
-                mihai.addBook(new Book("Clean Architecture", date));
-                mihai.addBook(new Book("Spring in Action", date));
-
-                // Elena o lăsăm intenționat fără cărți
-
-                studentRepository.saveAll(
-                        List.of(rares, maria, andrei, ana, mihai)
-                );
-
-        }
 
 
 
