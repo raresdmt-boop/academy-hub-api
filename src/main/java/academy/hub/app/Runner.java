@@ -11,10 +11,14 @@ import academy.hub.app.course.repository.CourseRepository;
 import academy.hub.app.course.services.interfaces.CourseCommandService;
 import academy.hub.app.course.services.interfaces.CourseQueryService;
 import academy.hub.app.enrollment.dtos.*;
+import academy.hub.app.enrollment.models.Enrollment;
+import academy.hub.app.enrollment.services.EnrollmentQueryServiceImpl;
 import academy.hub.app.enrollment.services.interfaces.EnrollmentCommandService;
+import academy.hub.app.enrollment.services.interfaces.EnrollmentQueryService;
 import academy.hub.app.student.comparators.StudentAgeComparator;
 import academy.hub.app.student.dtos.*;
 import academy.hub.app.student.exceptions.StudentNotFound;
+import academy.hub.app.student.factory.StudentFactory;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
 import academy.hub.app.student.services.interfaces.StudentCommandService;
@@ -40,9 +44,15 @@ public class Runner implements CommandLineRunner {
     private final CourseCommandService courseCommandService;
     private final CourseQueryService courseQueryService;
     private final EnrollmentCommandService enrollmentCommandService;
+    private final EnrollmentQueryService enrollmentQueryService;
+    private final StudentFactory studentFactory;
+
 
     public Runner(StudentCommandService studentCommandService, StudentQueryService studentQueryService,
-                  BookCommandService bookCommandService, BookQueryService bookQueryService, CourseCommandService courseCommandService, CourseQueryService courseQueryService, EnrollmentCommandService enrollmentCommandService) {
+                  BookCommandService bookCommandService, BookQueryService bookQueryService,
+                  CourseCommandService courseCommandService, CourseQueryService courseQueryService,
+                  EnrollmentCommandService enrollmentCommandService, EnrollmentQueryService enrollmentQueryService,
+                  StudentFactory studentFactory) {
         this.studentCommandService = studentCommandService;
         this.studentQueryService = studentQueryService;
         this.bookCommandService = bookCommandService;
@@ -50,6 +60,8 @@ public class Runner implements CommandLineRunner {
         this.courseCommandService = courseCommandService;
         this.courseQueryService = courseQueryService;
         this.enrollmentCommandService = enrollmentCommandService;
+        this.enrollmentQueryService = enrollmentQueryService;
+        this.studentFactory = studentFactory;
     }
 
     @PersistenceContext
@@ -66,7 +78,11 @@ public class Runner implements CommandLineRunner {
 //        bqsTEST();
 //        ccsTEST();
 //        cqsTest();
-        ecsTEST();
+//        ecsTEST();
+//        eqsTEST();
+       // factoryTest();
+//        seed();
+//        seedBooks();
 
     }
 
@@ -256,6 +272,276 @@ public class Runner implements CommandLineRunner {
                     " a fost sters");
 
         }
+        void eqsTEST(){
+        banner("EnrollmentQueryService TEST");
+
+        List<Enrollment> enrollments = enrollmentQueryService.getAllEnrollments();
+        for(Enrollment e: enrollments){
+            System.out.println(e.getStudent().getFirstName()+" -> "+e.getCourse().getName());
+        }
+
+
+        }
+        void factoryTest(){
+        banner("Testing Factory");
+
+        Student newS = studentFactory.createStudentFromText("Bogdan,Horghidan,bgdhrg@gmail.ro,28");
+        System.out.println(newS);
+
+        }
+        void seed(){
+
+
+                banner("SEED FOR QUERIES");
+
+                // =========================
+                // STUDENTS
+                // =========================
+
+                StudentCreateResponse rares = studentCommandService.addStudent(
+                        new StudentCreateRequest(
+                                "Rares",
+                                "Dumitru",
+                                "rares.dumitru@gmail.com",
+                                31
+                        )
+                );
+
+                StudentCreateResponse maria = studentCommandService.addStudent(
+                        new StudentCreateRequest(
+                                "Maria",
+                                "Popescu",
+                                "maria.popescu@gmail.com",
+                                22
+                        )
+                );
+
+                StudentCreateResponse andrei = studentCommandService.addStudent(
+                        new StudentCreateRequest(
+                                "Andrei",
+                                "Ionescu",
+                                "andrei.ionescu@gmail.com",
+                                27
+                        )
+                );
+
+                StudentCreateResponse ana = studentCommandService.addStudent(
+                        new StudentCreateRequest(
+                                "Ana",
+                                "Dumitrescu",
+                                "ana.dumitrescu@gmail.com",
+                                24
+                        )
+                );
+
+                StudentCreateResponse mihai = studentCommandService.addStudent(
+                        new StudentCreateRequest(
+                                "Mihai",
+                                "Georgescu",
+                                "mihai.georgescu@gmail.com",
+                                35
+                        )
+                );
+
+                StudentCreateResponse elena = studentCommandService.addStudent(
+                        new StudentCreateRequest(
+                                "Elena",
+                                "Stan",
+                                "elena.stan@gmail.com",
+                                29
+                        )
+                );
+
+
+                // =========================
+                // COURSES
+                // =========================
+
+                CourseCreateResponse java = courseCommandService.createCourse(
+                        new CourseCreateRequest(
+                                "Java Fundamentals",
+                                "Computer Science"
+                        )
+                );
+
+                CourseCreateResponse spring = courseCommandService.createCourse(
+                        new CourseCreateRequest(
+                                "Spring Boot",
+                                "Computer Science"
+                        )
+                );
+
+                CourseCreateResponse sql = courseCommandService.createCourse(
+                        new CourseCreateRequest(
+                                "SQL Fundamentals",
+                                "Computer Science"
+                        )
+                );
+
+                CourseCreateResponse economics = courseCommandService.createCourse(
+                        new CourseCreateRequest(
+                                "Microeconomics",
+                                "Economics"
+                        )
+                );
+
+
+                // =========================
+                // ENROLLMENTS
+                // =========================
+
+                // Rares -> Java, Spring, SQL
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                rares.id(),
+                                java.id()
+                        )
+                );
+
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                rares.id(),
+                                spring.id()
+                        )
+                );
+
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                rares.id(),
+                                sql.id()
+                        )
+                );
+
+
+                // Maria -> Java, SQL
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                maria.id(),
+                                java.id()
+                        )
+                );
+
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                maria.id(),
+                                sql.id()
+                        )
+                );
+
+
+                // Andrei -> Java, Spring
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                andrei.id(),
+                                java.id()
+                        )
+                );
+
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                andrei.id(),
+                                spring.id()
+                        )
+                );
+
+
+                // Ana -> SQL
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                ana.id(),
+                                sql.id()
+                        )
+                );
+
+
+                // Mihai -> Java, Spring, SQL
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                mihai.id(),
+                                java.id()
+                        )
+                );
+
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                mihai.id(),
+                                spring.id()
+                        )
+                );
+
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                mihai.id(),
+                                sql.id()
+                        )
+                );
+
+
+                // Elena -> Microeconomics
+                enrollmentCommandService.createEnrollment(
+                        new EnrollmentCreateRequest(
+                                elena.id(),
+                                economics.id()
+                        )
+                );
+
+        }
+        void seedBooks(){
+
+                Student rares = studentQueryService
+                        .getByEmail("rares.dumitru@gmail.com")
+                        .orElseThrow();
+
+                Student maria = studentQueryService
+                        .getByEmail("maria.popescu@gmail.com")
+                        .orElseThrow();
+
+                Student andrei = studentQueryService
+                        .getByEmail("andrei.ionescu@gmail.com")
+                        .orElseThrow();
+
+                Student ana = studentQueryService
+                        .getByEmail("ana.dumitrescu@gmail.com")
+                        .orElseThrow();
+
+                Student mihai = studentQueryService
+                        .getByEmail("mihai.georgescu@gmail.com")
+                        .orElseThrow();
+
+                Student elena = studentQueryService
+                        .getByEmail("elena.stan@gmail.com")
+                        .orElseThrow();
+
+                LocalDate date = LocalDate.now();
+
+                rares.addBook(new Book("Effective Java", date));
+                rares.addBook(new Book("Clean Code", date));
+                rares.addBook(new Book("Spring Start Here", date));
+
+                maria.addBook(new Book("Head First Java", date));
+                maria.addBook(new Book("Learning SQL", date));
+
+                andrei.addBook(
+                        new Book("Java Concurrency in Practice", date)
+                );
+
+                ana.addBook(new Book("SQL Cookbook", date));
+                ana.addBook(new Book("Design Patterns", date));
+
+                mihai.addBook(new Book("Effective Java", date));
+                mihai.addBook(new Book("Clean Architecture", date));
+                mihai.addBook(new Book("Spring in Action", date));
+
+                // Elena o lăsăm intenționat fără cărți
+
+                studentRepository.saveAll(
+                        List.of(rares, maria, andrei, ana, mihai)
+                );
+
+        }
+
+
+
 
         void banner(String title){
             System.out.println("============"+title+"============");

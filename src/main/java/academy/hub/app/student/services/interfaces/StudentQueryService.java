@@ -19,6 +19,7 @@ public interface StudentQueryService {
     List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName);
     Student getStudentById(UUID studentId);
     Optional<Student> getById(UUID studentId);
+    Optional<Student> getByEmail(String email);
 
     //Comparator
     Student getBestStudentWithComparator(Comparator<Student> comparator);

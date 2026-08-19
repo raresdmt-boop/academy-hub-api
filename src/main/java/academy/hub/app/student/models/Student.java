@@ -68,6 +68,14 @@ public class Student {
         this.age = age;
     }
 
+    public Student(String text){
+        String[] props = text.split(",");
+        setFirstName(props[0]);
+        setLastName(props[1]);
+        setEmail(props[2]);
+        setAge(Integer.parseInt(props[3]));
+    }
+
     public Set<Book> getBooks() {
         return Collections.unmodifiableSet(books);
     }

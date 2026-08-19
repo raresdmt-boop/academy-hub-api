@@ -23,6 +23,7 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
     Student findTop1ByOrderByAgeDesc();
     List<Student> findAllByAgeGreaterThan(int age);
     List<Student> findAllByAgeLessThan(int age);
+    Optional<Student> getByEmail(String email);
 
     List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName);
 

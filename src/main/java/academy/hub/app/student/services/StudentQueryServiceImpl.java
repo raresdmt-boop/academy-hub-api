@@ -80,6 +80,14 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
 
     @Override
+    public Optional<Student> getByEmail(String email) {
+        if(studentRepository.getByEmail(email).isEmpty()){
+            throw new StudentNotFound();
+        }
+        return studentRepository.getByEmail(email);
+    }
+
+    @Override
     public Student getBestStudentWithComparator(Comparator<Student> comparator) {
         return studentRepository.findAll().stream().max(comparator).orElseThrow(StudentNotFound::new);
     }

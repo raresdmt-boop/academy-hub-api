@@ -1,4 +1,9 @@
 package academy.hub.app.student.factory;
 
-public class StudentFactory {
+import academy.hub.app.student.models.Student;
+
+public interface StudentFactory {
+
+    Student createStudentFromText(String text);
+
 }
