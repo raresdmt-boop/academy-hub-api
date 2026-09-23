@@ -81,185 +81,13 @@ public class Runner implements CommandLineRunner {
 //        ecsTEST();
 //        eqsTEST();
        // factoryTest();
-//        seed();
+        seed();
 
     }
 
-
-        void scsTEST() {
-        banner("StudentCommandService TEST");
-            StudentCreateRequest newStudent = new StudentCreateRequest("Rares", "Dumitru",
-                    "rares123@gmail.ro", 31);
-            StudentCreateResponse scr = studentCommandService.addStudent(newStudent);
-
-            System.out.println("Student created successfully " + scr.firstName() + " " + scr.lastName() + " " + scr.id());
+    void seed(){
 
 
-            StudentUpdateRequest updateStudent = new StudentUpdateRequest(scr.id(), "Paul", null, null, 0);
-            StudentUpdateResponse updateStudentResponse = studentCommandService.updateStudent(updateStudent);
-            System.out.println("Student updated successfully " + updateStudentResponse.firstName() + " " + updateStudentResponse.lastName()
-                    + " " + updateStudentResponse.email() + " " + updateStudentResponse.age());
-
-            StudentDeleteRequest delStu = new StudentDeleteRequest(scr.id(), scr.email());
-            StudentDeleteResponse sdr = studentCommandService.deleteStudent(delStu);
-            System.out.println("Student " + sdr.firstName() + " " + sdr.lastName() + " has been deleted.");
-        }
-        void sqsTEST(){
-            banner("StudentQueryService TEST");
-            List<Student> students = studentQueryService.getStudents();
-            for(Student s: students){
-                System.out.println(s.getFirstName() + " " + s.getLastName());
-            }
-
-            Student oldestStudent = studentQueryService.getOldestStudent();
-            System.out.println(oldestStudent.getFirstName() + " " + oldestStudent.getLastName());
-
-            students = studentQueryService.getStudentsWithAgeGreaterThan(25);
-            for(Student s: students){
-                System.out.println(s.getFirstName() + " " + s.getLastName());
-            }
-            students = studentQueryService.getStudentsWithAgeLessThan(25);
-            for(Student s: students){
-                System.out.println(s.getFirstName() + " " + s.getLastName());
-            }
-            List<StudentSummary> stusum = studentQueryService.findByFirstNameOrderByAgeAsc("Rares");
-            for(StudentSummary s: stusum){
-                System.out.println(s.getFirstName()+" "+ s.getEmail());
-            }
-
-            System.out.println(studentQueryService.getBestStudentWithComparator(new StudentAgeComparator()));
-        }
-        void bcsTEST(){
-            banner("BookCommandService TEST");
-            BookCreateRequest bookCreateRequest = new BookCreateRequest("Alba Ca Zapada");
-            BookCreateResponse bcr = bookCommandService.createBook(bookCreateRequest);
-            System.out.println(bcr.name() + " has been sucessfully created at " + bcr.createdAt());
-
-            BookUpdateRequest bookUpdateRequest = new BookUpdateRequest("Cenusareasa");
-            BookUpdateResponse bus = bookCommandService.updatebook(bcr.id(), bookUpdateRequest);
-            System.out.println(bus.name() + " has been updated");
-
-            BookDeleteResponse bdr = bookCommandService.deletebook(bcr.id());
-            System.out.println(bdr.name()+ " has successfully been deleted.");
-        }
-        void bqsTEST(){
-        banner("BookQueryService TEST");
-
-
-
-        List<Student> allWithBooks = studentQueryService.findAllStudentsWithBooks();
-        for(Student st: allWithBooks){
-            System.out.println(st.getFirstName()+" books: "+st.getBooks());
-        }
-
-        List<StudentBookCount> allWithBookCount = studentQueryService.getStudentBookCounts();
-        banner("Student Book Count");
-        for(StudentBookCount sb: allWithBookCount){
-            System.out.println(sb.firstName()+" "+sb.lastName()+" book count: "+sb.bookCount());
-        }
-
-        List<Student> orderedList = studentQueryService.getStudentsOrderByBooksDesc();
-        for(Student st: orderedList){
-            System.out.println(st.getFirstName() + st.getBooks().size());
-        }
-
-        }
-        void ccsTEST() {
-        banner("CourseCommandService TEST");
-            CourseCreateRequest ccr = new CourseCreateRequest("Informatica", "Stiinte");
-            CourseUpdateRequest cup = new CourseUpdateRequest("Alchimie avansata", "Stiinte pe bune");
-
-            CourseCreateResponse courseRep = courseCommandService.createCourse(ccr);
-            System.out.println("Course created successfully " + courseRep.name());
-
-
-            CourseUpdateResponse courseup = courseCommandService.updateCourse(courseRep.id(), cup);
-            System.out.println("Course updated successfully " + courseup.name());
-
-            CourseDeleteResponse cdr = courseCommandService.deleteCourse(courseRep.id());
-            System.out.println("Course deleted successfully " + cdr.name());
-        }
-        void cqsTest(){
-        banner("CourseQueryService TEST");
-
-
-
-        long count = courseQueryService.countByDepartment("Computer Science");
-        System.out.println("Computer Science department has " + count + " courses");
-
-        List<CourseSummary> courseSummaries = courseQueryService.findByDepartmentOrderByNameAsc("Computer Science");
-        for(CourseSummary cs: courseSummaries){
-            System.out.println(cs.getName());
-        }
-
-        List<CoursePerDepartmentCount> perDep = courseQueryService.findAndCountPerDepartment();
-        for(CoursePerDepartmentCount p: perDep){
-            System.out.println(p.department() + " " + p.count());
-        }
-
-        }
-        void ecsTEST(){
-        banner("EnrollmentCommandService TEST");
-
-
-        //Rares inrolat la Introduction to programming
-//            UUID studId = UUID.fromString("a5e634cd-9f00-4bd1-a2eb-7c8eb99570f4");
-//            UUID cursId = UUID.fromString("00830ada-9722-11f1-bb98-eecd9f76e24b");
-//            EnrollmentCreateRequest ecr = new EnrollmentCreateRequest(studId, cursId);
-//
-//            EnrollmentCreateResponse raspuns = enrollmentCommandService.createEnrollment(ecr);
-//            System.out.println("Enrollment creat: \n" +
-//                    studentQueryService.getByIdJoinFetchBooks(raspuns.studentId()).getFirstName()+
-//                    " s-a inrolat la "+
-//                    courseQueryService.findById(raspuns.courseID()).getName());
-
-            //Maria inrolata la Organic Chemistry, apoi update si delete
-            banner("Maria inrolata la Organic Chemistry, apoi update si delete");
-            UUID studId = UUID.fromString("8ee10b70-f532-4692-9d8f-847f1bf819e4");
-            UUID cursId = UUID.fromString("00843a38-9722-11f1-bb98-eecd9f76e24b");
-            EnrollmentCreateRequest ecr = new EnrollmentCreateRequest(studId, cursId);
-
-            EnrollmentCreateResponse raspuns = enrollmentCommandService.createEnrollment(ecr);
-            System.out.println("Enrollment creat: \n" +
-                    studentQueryService.getByIdJoinFetchBooks(raspuns.studentId()).getFirstName()+
-                    " s-a inrolat la "+
-                    courseQueryService.findById(raspuns.courseID()).getName());
-
-            banner("Update");
-            UUID microEconomicId = UUID.fromString("00852067-9722-11f1-bb98-eecd9f76e24b");
-            EnrollmentUpdateRequest eur = new EnrollmentUpdateRequest(studId, microEconomicId);
-
-            EnrollmentUpdateResponse update = enrollmentCommandService
-                    .updateEnrollment(raspuns.enrollmentId(), eur);
-
-            System.out.println("Student " + studentQueryService.getStudentById(update.studentId()).getFirstName()+
-                    " enrollment update from " + courseQueryService.getById(raspuns.courseID()).get().getName()+
-                    " to " + courseQueryService.getById(update.courseId()).get().getName());
-
-            banner("Delete");
-            EnrollmentDeleteRequest edr = new EnrollmentDeleteRequest(update.studentId(), update.courseId());
-            EnrollmentDeleteResponse delete = enrollmentCommandService.deleteEnrollment(edr);
-            System.out.println("Enrollment-ul lui " +
-                    studentQueryService.getStudentById(delete.studentID()).getFirstName() +
-                    " la cursul " + courseQueryService.findById(delete.courseID()).getName() +
-                    " a fost sters");
-
-        }
-        void eqsTEST(){
-        banner("EnrollmentQueryService TEST");
-
-
-
-
-        }
-        void factoryTest(){
-        banner("Testing Factory");
-
-        Student newS = studentFactory.createStudentFromText("Bogdan,Horghidan,bgdhrg@gmail.ro,28");
-        System.out.println(newS);
-
-        }
-        void seed(){
 
 
                 banner("SEED FOR QUERIES");
@@ -459,7 +287,179 @@ public class Runner implements CommandLineRunner {
 
 
 
+    void scsTEST() {
+        banner("StudentCommandService TEST");
+        StudentCreateRequest newStudent = new StudentCreateRequest("Rares", "Dumitru",
+                "rares123@gmail.ro", 31);
+        StudentCreateResponse scr = studentCommandService.addStudent(newStudent);
 
+        System.out.println("Student created successfully " + scr.firstName() + " " + scr.lastName() + " " + scr.id());
+
+
+        StudentUpdateRequest updateStudent = new StudentUpdateRequest(scr.id(), "Paul", null, null, 0);
+        StudentUpdateResponse updateStudentResponse = studentCommandService.updateStudent(updateStudent);
+        System.out.println("Student updated successfully " + updateStudentResponse.firstName() + " " + updateStudentResponse.lastName()
+                + " " + updateStudentResponse.email() + " " + updateStudentResponse.age());
+
+        StudentDeleteRequest delStu = new StudentDeleteRequest(scr.id(), scr.email());
+        StudentDeleteResponse sdr = studentCommandService.deleteStudent(delStu);
+        System.out.println("Student " + sdr.firstName() + " " + sdr.lastName() + " has been deleted.");
+    }
+    void sqsTEST(){
+        banner("StudentQueryService TEST");
+        List<Student> students = studentQueryService.getStudents();
+        for(Student s: students){
+            System.out.println(s.getFirstName() + " " + s.getLastName());
+        }
+
+        Student oldestStudent = studentQueryService.getOldestStudent();
+        System.out.println(oldestStudent.getFirstName() + " " + oldestStudent.getLastName());
+
+        students = studentQueryService.getStudentsWithAgeGreaterThan(25);
+        for(Student s: students){
+            System.out.println(s.getFirstName() + " " + s.getLastName());
+        }
+        students = studentQueryService.getStudentsWithAgeLessThan(25);
+        for(Student s: students){
+            System.out.println(s.getFirstName() + " " + s.getLastName());
+        }
+        List<StudentSummary> stusum = studentQueryService.findByFirstNameOrderByAgeAsc("Rares");
+        for(StudentSummary s: stusum){
+            System.out.println(s.getFirstName()+" "+ s.getEmail());
+        }
+
+        System.out.println(studentQueryService.getBestStudentWithComparator(new StudentAgeComparator()));
+    }
+    void bcsTEST(){
+        banner("BookCommandService TEST");
+        BookCreateRequest bookCreateRequest = new BookCreateRequest("Alba Ca Zapada");
+        BookCreateResponse bcr = bookCommandService.createBook(bookCreateRequest);
+        System.out.println(bcr.name() + " has been sucessfully created at " + bcr.createdAt());
+
+        BookUpdateRequest bookUpdateRequest = new BookUpdateRequest("Cenusareasa");
+        BookUpdateResponse bus = bookCommandService.updatebook(bcr.id(), bookUpdateRequest);
+        System.out.println(bus.name() + " has been updated");
+
+        BookDeleteResponse bdr = bookCommandService.deletebook(bcr.id());
+        System.out.println(bdr.name()+ " has successfully been deleted.");
+    }
+    void bqsTEST(){
+        banner("BookQueryService TEST");
+
+
+
+        List<Student> allWithBooks = studentQueryService.findAllStudentsWithBooks();
+        for(Student st: allWithBooks){
+            System.out.println(st.getFirstName()+" books: "+st.getBooks());
+        }
+
+        List<StudentBookCount> allWithBookCount = studentQueryService.getStudentBookCounts();
+        banner("Student Book Count");
+        for(StudentBookCount sb: allWithBookCount){
+            System.out.println(sb.firstName()+" "+sb.lastName()+" book count: "+sb.bookCount());
+        }
+
+        List<Student> orderedList = studentQueryService.getStudentsOrderByBooksDesc();
+        for(Student st: orderedList){
+            System.out.println(st.getFirstName() + st.getBooks().size());
+        }
+
+    }
+    void ccsTEST() {
+        banner("CourseCommandService TEST");
+        CourseCreateRequest ccr = new CourseCreateRequest("Informatica", "Stiinte");
+        CourseUpdateRequest cup = new CourseUpdateRequest("Alchimie avansata", "Stiinte pe bune");
+
+        CourseCreateResponse courseRep = courseCommandService.createCourse(ccr);
+        System.out.println("Course created successfully " + courseRep.name());
+
+
+        CourseUpdateResponse courseup = courseCommandService.updateCourse(courseRep.id(), cup);
+        System.out.println("Course updated successfully " + courseup.name());
+
+        CourseDeleteResponse cdr = courseCommandService.deleteCourse(courseRep.id());
+        System.out.println("Course deleted successfully " + cdr.name());
+    }
+    void cqsTest(){
+        banner("CourseQueryService TEST");
+
+
+
+        long count = courseQueryService.countByDepartment("Computer Science");
+        System.out.println("Computer Science department has " + count + " courses");
+
+        List<CourseSummary> courseSummaries = courseQueryService.findByDepartmentOrderByNameAsc("Computer Science");
+        for(CourseSummary cs: courseSummaries){
+            System.out.println(cs.getName());
+        }
+
+        List<CoursePerDepartmentCount> perDep = courseQueryService.findAndCountPerDepartment();
+        for(CoursePerDepartmentCount p: perDep){
+            System.out.println(p.department() + " " + p.count());
+        }
+
+    }
+    void ecsTEST(){
+        banner("EnrollmentCommandService TEST");
+
+
+        //Rares inrolat la Introduction to programming
+//            UUID studId = UUID.fromString("a5e634cd-9f00-4bd1-a2eb-7c8eb99570f4");
+//            UUID cursId = UUID.fromString("00830ada-9722-11f1-bb98-eecd9f76e24b");
+//            EnrollmentCreateRequest ecr = new EnrollmentCreateRequest(studId, cursId);
+//
+//            EnrollmentCreateResponse raspuns = enrollmentCommandService.createEnrollment(ecr);
+//            System.out.println("Enrollment creat: \n" +
+//                    studentQueryService.getByIdJoinFetchBooks(raspuns.studentId()).getFirstName()+
+//                    " s-a inrolat la "+
+//                    courseQueryService.findById(raspuns.courseID()).getName());
+
+        //Maria inrolata la Organic Chemistry, apoi update si delete
+        banner("Maria inrolata la Organic Chemistry, apoi update si delete");
+        UUID studId = UUID.fromString("8ee10b70-f532-4692-9d8f-847f1bf819e4");
+        UUID cursId = UUID.fromString("00843a38-9722-11f1-bb98-eecd9f76e24b");
+        EnrollmentCreateRequest ecr = new EnrollmentCreateRequest(studId, cursId);
+
+        EnrollmentCreateResponse raspuns = enrollmentCommandService.createEnrollment(ecr);
+        System.out.println("Enrollment creat: \n" +
+                studentQueryService.getByIdJoinFetchBooks(raspuns.studentId()).getFirstName()+
+                " s-a inrolat la "+
+                courseQueryService.findById(raspuns.courseID()).getName());
+
+        banner("Update");
+        UUID microEconomicId = UUID.fromString("00852067-9722-11f1-bb98-eecd9f76e24b");
+        EnrollmentUpdateRequest eur = new EnrollmentUpdateRequest(studId, microEconomicId);
+
+        EnrollmentUpdateResponse update = enrollmentCommandService
+                .updateEnrollment(raspuns.enrollmentId(), eur);
+
+        System.out.println("Student " + studentQueryService.getStudentById(update.studentId()).getFirstName()+
+                " enrollment update from " + courseQueryService.getById(raspuns.courseID()).get().getName()+
+                " to " + courseQueryService.getById(update.courseId()).get().getName());
+
+        banner("Delete");
+        EnrollmentDeleteRequest edr = new EnrollmentDeleteRequest(update.studentId(), update.courseId());
+        EnrollmentDeleteResponse delete = enrollmentCommandService.deleteEnrollment(edr);
+        System.out.println("Enrollment-ul lui " +
+                studentQueryService.getStudentById(delete.studentID()).getFirstName() +
+                " la cursul " + courseQueryService.findById(delete.courseID()).getName() +
+                " a fost sters");
+
+    }
+    void eqsTEST(){
+        banner("EnrollmentQueryService TEST");
+
+
+
+
+    }
+    void factoryTest(){
+        banner("Testing Factory");
+
+        Student newS = studentFactory.createStudentFromText("Bogdan,Horghidan,bgdhrg@gmail.ro,28");
+        System.out.println(newS);
+
+    }
 
         void banner(String title){
             System.out.println("============"+title+"============");

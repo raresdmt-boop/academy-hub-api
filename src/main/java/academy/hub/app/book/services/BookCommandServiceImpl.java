@@ -1,6 +1,7 @@
 package academy.hub.app.book.services;
 
 import academy.hub.app.book.dtos.*;
+import academy.hub.app.book.exceptions.BookAlreadyAssignedToThisStudent;
 import academy.hub.app.book.exceptions.BookAlreadyExists;
 import academy.hub.app.book.exceptions.BookNotFound;
 import academy.hub.app.book.models.Book;
@@ -29,6 +30,9 @@ public class BookCommandServiceImpl implements BookCommandService {
     public BookCreateResponse createBook(BookCreateRequest bookCreateRequest) {
         if(bookRepository.existsByName(bookCreateRequest.name())){
             throw new BookAlreadyExists();
+        }
+        if(!bookRepository.findByStudentId(bookCreateRequest.studentId()).isEmpty()){
+            throw new BookAlreadyAssignedToThisStudent();
         }
 
         LocalDate createdAt = LocalDate.now();
