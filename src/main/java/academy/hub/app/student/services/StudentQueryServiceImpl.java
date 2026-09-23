@@ -1,6 +1,7 @@
 package academy.hub.app.student.services;
 
 import academy.hub.app.student.dtos.StudentBookCount;
+import academy.hub.app.student.dtos.StudentResponse;
 import academy.hub.app.student.dtos.StudentSummary;
 import academy.hub.app.student.exceptions.NoStudentsFound;
 import academy.hub.app.student.exceptions.StudentIdNotFound;
@@ -11,10 +12,7 @@ import academy.hub.app.student.services.interfaces.StudentQueryService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Validated
@@ -97,10 +95,10 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
     @Override
     public List<Student> findAllStudentsWithBooks() {
-        if(studentRepository.findAllWithBooks().isEmpty()) {
+        if(studentRepository.findAllStudentsWithBooks().isEmpty()) {
             throw new NoStudentsFound();
         }
-        return studentRepository.findAllWithBooks();
+        return studentRepository.findAllStudentsWithBooks();
     }
     @Override
     public List<StudentBookCount> getStudentBookCounts(){
@@ -115,6 +113,18 @@ public class StudentQueryServiceImpl implements StudentQueryService {
             throw new NoStudentsFound();
         }
         return studentRepository.getStudentsOrderByBooksDesc();
+    }
+
+    @Override
+    public List<StudentResponse> getAll() {
+        List<StudentResponse> studentResponseList = studentRepository.findAll()
+                .stream()
+                .map(StudentResponse::from)
+                .toList();
+        if(studentResponseList.isEmpty()){
+            throw new NoStudentsFound();
+        }
+        return studentResponseList;
     }
 
 

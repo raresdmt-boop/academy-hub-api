@@ -32,7 +32,7 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     @EntityGraph(value = "Student.withBooks")
     @Query("select s from Student s")
-    List<Student> findAllWithBooks();
+    List<Student> findAllStudentsWithBooks();
 
     @Query("""
             select new academy.hub.app.student.dtos.StudentBookCount(s.firstName, s.lastName, count(b))
@@ -43,6 +43,9 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     @Query("select s from Student s order by size(s.books) desc")
     List<Student> getStudentsOrderByBooksDesc();
+
+    @EntityGraph(attributePaths = {"enrollments", "books", "enrollments.course"})
+    List<Student> findAll();
 
 
 }

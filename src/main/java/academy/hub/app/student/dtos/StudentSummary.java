@@ -2,9 +2,11 @@ package academy.hub.app.student.dtos;
 
 import academy.hub.app.course.repository.CourseRepository;
 
+import java.util.UUID;
+
 public interface StudentSummary {
 
-    Long getId();
+    UUID getId();
 
     String getFirstName();
 

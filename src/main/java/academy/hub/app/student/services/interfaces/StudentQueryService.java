@@ -1,6 +1,7 @@
 package academy.hub.app.student.services.interfaces;
 
 import academy.hub.app.student.dtos.StudentBookCount;
+import academy.hub.app.student.dtos.StudentResponse;
 import academy.hub.app.student.dtos.StudentSummary;
 import academy.hub.app.student.models.Student;
 import org.springframework.core.annotation.Order;
@@ -29,4 +30,6 @@ public interface StudentQueryService {
     List<Student> findAllStudentsWithBooks();
     List<StudentBookCount> getStudentBookCounts();
     List<Student> getStudentsOrderByBooksDesc();
+
+    List<StudentResponse> getAll();
 }

@@ -17,6 +17,10 @@ import java.util.UUID;
 @Entity(name="Course")
 @Table(name="course",
 uniqueConstraints = @UniqueConstraint (name="uk_course_name", columnNames = "name"))
+@NamedEntityGraph(
+        name = "Course.withEnrollments",
+        attributeNodes = @NamedAttributeNode("enrollments")
+)
 public class Course {
 
     @Id
@@ -37,7 +41,7 @@ public class Course {
     cascade = CascadeType.ALL,
     fetch = FetchType.LAZY,
     orphanRemoval = true)
-    private Set<Enrollment> enrollments;
+    private Set<Enrollment> enrollments = new HashSet<>();
 
     public  Set<Enrollment> getEnrollments() {
         return Collections.unmodifiableSet(enrollments);

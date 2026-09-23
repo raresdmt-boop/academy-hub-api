@@ -18,6 +18,10 @@ import java.util.*;
 @Entity(name = "Student")
 @Table(name = "student",
         uniqueConstraints = @UniqueConstraint(name = "uk_student_email", columnNames = "email"))
+@NamedEntityGraph(
+        name = "Student.withBooks",
+        attributeNodes = @NamedAttributeNode("books")
+)
 public class Student {
 
     @Id

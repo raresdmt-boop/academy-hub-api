@@ -1,6 +1,7 @@
 package academy.hub.app.course.services.interfaces;
 
 import academy.hub.app.course.dtos.CoursePerDepartmentCount;
+import academy.hub.app.course.dtos.CourseResponse;
 import academy.hub.app.course.dtos.CourseSummary;
 import academy.hub.app.course.models.Course;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 public interface CourseQueryService {
 
-    List<Course> findAll();
+    List<CourseResponse> findAll();
     List<Course> findByDepartment(String department);
     long countByDepartment(String department);
     List<CourseSummary> findByDepartmentOrderByNameAsc(String department);

@@ -1,6 +1,7 @@
 package academy.hub.app.course.services;
 
 import academy.hub.app.course.dtos.CoursePerDepartmentCount;
+import academy.hub.app.course.dtos.CourseResponse;
 import academy.hub.app.course.dtos.CourseSummary;
 import academy.hub.app.course.exceptions.CourseIdNotFound;
 import academy.hub.app.course.exceptions.NoCourseFound;
@@ -10,6 +11,7 @@ import academy.hub.app.course.services.interfaces.CourseQueryService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,11 +28,15 @@ public class CourseQueryServiceImpl implements CourseQueryService {
 
 
     @Override
-    public List<Course> findAll() {
-        if(courseRepository.findAll().isEmpty()){
+    public List<CourseResponse> findAll() {
+        List<CourseResponse> courseResponses = courseRepository.findAll()
+                .stream()
+                .map(CourseResponse::from)
+                .toList();
+        if (courseResponses.isEmpty()) {
             throw new NoCourseFound();
         }
-        return courseRepository.findAll();
+        return courseResponses;
     }
 
     @Override

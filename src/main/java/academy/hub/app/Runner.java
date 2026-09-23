@@ -145,25 +145,7 @@ public class Runner implements CommandLineRunner {
         void bqsTEST(){
         banner("BookQueryService TEST");
 
-        List<Book>  books = bookQueryService.getBooks();
-        for(Book b: books){
-            System.out.println(b.getName());
-        }
 
-        Student s = studentQueryService.getOldestStudent();
-        books = bookQueryService.getStudentBooks(s.getId());
-        for(Book b: books){
-            System.out.println(b.getName() + " -> " + b.getStudent().getFirstName() + " " + b.getStudent().getLastName());
-        }
-
-        long bookNr = bookQueryService.countBooksByStudentId(s.getId());
-        System.out.println(s.getFirstName()+" are "+bookNr + " books");
-
-        Student sFetch = studentQueryService.getByIdJoinFetchBooks(s.getId());
-        System.out.println(sFetch.getFirstName()+sFetch.getLastName()+ " books: " + sFetch.getBooks());
-        for(Book b: sFetch.getBooks()){
-            System.out.println(s.getFirstName()+" book: "+b.getName());
-        }
 
         List<Student> allWithBooks = studentQueryService.findAllStudentsWithBooks();
         for(Student st: allWithBooks){
@@ -200,15 +182,7 @@ public class Runner implements CommandLineRunner {
         void cqsTest(){
         banner("CourseQueryService TEST");
 
-        List<Course> courses = courseQueryService.findAll();
-        for(Course c: courses){
-            System.out.println(c.getName()+" - department ->"+c.getDepartment());
-        }
 
-        courses = courseQueryService.findByDepartment("Computer Science");
-        for(Course c: courses){
-            System.out.println(c.getName());
-        }
 
         long count = courseQueryService.countByDepartment("Computer Science");
         System.out.println("Computer Science department has " + count + " courses");
@@ -274,10 +248,7 @@ public class Runner implements CommandLineRunner {
         void eqsTEST(){
         banner("EnrollmentQueryService TEST");
 
-        List<Enrollment> enrollments = enrollmentQueryService.getAllEnrollments();
-        for(Enrollment e: enrollments){
-            System.out.println(e.getStudent().getFirstName()+" -> "+e.getCourse().getName());
-        }
+
 
 
         }

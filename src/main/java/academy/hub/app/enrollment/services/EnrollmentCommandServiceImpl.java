@@ -76,6 +76,9 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
         if(!enrollmentRepository.existsById(id)) {
             throw new EnrollmentNotFound();
         }
+        if(enrollmentRepository.findByStudentIdAndCourseId(eur.studentId(), eur.courseId()).isPresent()) {
+            throw new StudentAlreadyEnrolledInThisCourse();
+        }
         Enrollment enrollment = enrollmentRepository.findById(id).orElseThrow();
         enrollment.setCourse(courseQueryService.getById(eur.courseId()).orElseThrow());
         enrollment.setStudent(studentQueryService.getById(eur.studentId()).orElseThrow());
