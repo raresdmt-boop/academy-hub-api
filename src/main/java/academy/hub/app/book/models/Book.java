@@ -45,7 +45,6 @@ public class Book {
         this.createdAt = createdAt;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

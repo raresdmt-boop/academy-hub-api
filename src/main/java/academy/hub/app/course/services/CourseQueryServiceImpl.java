@@ -41,10 +41,13 @@ public class CourseQueryServiceImpl implements CourseQueryService {
 
     @Override
     public List<Course> findByDepartment(String department) {
-        if(courseRepository.findByDepartment(department).isEmpty()){
+        List<Course> cursuri = courseRepository.findByDepartment(department)
+                .stream()
+                .toList();
+        if (cursuri.isEmpty()) {
             throw new NoCourseFound();
         }
-        return courseRepository.findByDepartment(department);
+        return cursuri;
     }
 
     @Override
@@ -55,31 +58,33 @@ public class CourseQueryServiceImpl implements CourseQueryService {
 
     @Override
     public List<CourseSummary> findByDepartmentOrderByNameAsc(String department) {
-        if(courseRepository.findByDepartmentOrderByNameAsc(department).isEmpty()){
+        List<CourseSummary> cursuri = courseRepository.findByDepartment(department)
+                .stream()
+                .map(CourseSummary::from)
+                .toList();
+        if (cursuri.isEmpty()) {
             throw new NoCourseFound();
         }
-        return courseRepository.findByDepartmentOrderByNameAsc(department);
+        return cursuri;
     }
 
     @Override
     public Course findById(UUID id) {
-        if(courseRepository.findById(id).isEmpty()){
-            throw new NoCourseFound();
-        }
-        return courseRepository.findById(id).orElseThrow();
+
+        return courseRepository.findById(id).orElseThrow(NoCourseFound::new);
     }
 
     @Override
     public Optional<Course> getById(UUID id) {
-        if (courseRepository.findById(id).isEmpty()) throw new CourseIdNotFound();
-        return courseRepository.findById(id);
+        return Optional.ofNullable(courseRepository.findById(id).orElseThrow(CourseIdNotFound::new));
     }
 
     @Override
     public List<CoursePerDepartmentCount> findAndCountPerDepartment() {
-        if(courseRepository.findAndCountPerDepartment().isEmpty()){
+        List<CoursePerDepartmentCount> lista = courseRepository.findAndCountPerDepartment();
+        if(lista.isEmpty()) {
             throw new NoCourseFound();
         }
-        return courseRepository.findAndCountPerDepartment();
+        return lista;
     }
 }

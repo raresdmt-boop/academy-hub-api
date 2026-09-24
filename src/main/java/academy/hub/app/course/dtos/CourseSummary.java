@@ -1,7 +1,19 @@
 package academy.hub.app.course.dtos;
 
-public interface CourseSummary {
+import academy.hub.app.course.models.Course;
 
-    String getName();
+import java.util.function.Function;
+
+public record CourseSummary(
+        String name
+) {
+
+
+
+    public static CourseSummary from(Course course){
+        return new CourseSummary(
+                course.getName()
+        );
+    }
 
 }

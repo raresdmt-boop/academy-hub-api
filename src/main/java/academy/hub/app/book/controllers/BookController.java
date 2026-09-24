@@ -1,9 +1,7 @@
 package academy.hub.app.book.controllers;
 
 
-import academy.hub.app.book.dtos.BookCreateRequest;
-import academy.hub.app.book.dtos.BookCreateResponse;
-import academy.hub.app.book.dtos.BookResponse;
+import academy.hub.app.book.dtos.*;
 import academy.hub.app.book.models.Book;
 import academy.hub.app.book.services.interfaces.BookCommandService;
 import academy.hub.app.book.services.interfaces.BookQueryService;
@@ -13,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/books")
@@ -36,6 +35,18 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookCreateResponse> createBook(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
         return ResponseEntity.ok(bookCommandService.createBook(bookCreateRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BookDeleteResponse> deleteBook(@PathVariable UUID id) {
+        return ResponseEntity.ok(bookCommandService.deletebook(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookUpdateResponse> updateBook(
+            @PathVariable UUID id,
+            @Valid @RequestBody BookUpdateRequest bookUpdateRequest) {
+        return ResponseEntity.ok(bookCommandService.updatebook(id, bookUpdateRequest));
     }
 
 }

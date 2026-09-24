@@ -13,7 +13,8 @@ import java.util.UUID;
 
 @Getter
 @Entity(name = "Enrollment")
-@Table(name = "enrollment")
+@Table(name="enrollment", uniqueConstraints = @UniqueConstraint(
+        name="uk_enrollment_student_course", columnNames={"student_id","course_id"}))
 public class Enrollment {
 
     @Id
@@ -22,12 +23,12 @@ public class Enrollment {
 
     @Setter
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "student_id")
+   @JoinColumn(name = "student_id", unique = true, nullable = false)
    Student student;
 
     @Setter
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "course_id")
+   @JoinColumn(name = "course_id", unique = true, nullable = false)
    Course course;
 
    @Setter
@@ -44,7 +45,7 @@ public class Enrollment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if(!(o instanceof Enrollment other)) return false;
-        return student.getId().equals(other.student.getId()) && course.getId().equals(other.course.getId());
+        return id != null && id.equals(other.id);
     }
 
     @Override

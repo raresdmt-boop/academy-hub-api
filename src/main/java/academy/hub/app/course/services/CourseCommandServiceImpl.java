@@ -41,20 +41,15 @@ public class CourseCommandServiceImpl implements CourseCommandService {
 
     @Override
     public CourseDeleteResponse deleteCourse(UUID id) {
-        if(!courseRepository.existsById(id)) {
-            throw new CourseIdNotFound();
-        }
-        Course tobeDel  = courseRepository.findById(id).orElseThrow();
+        Course tobeDel  = courseRepository.findById(id).orElseThrow(CourseIdNotFound::new);
         courseRepository.delete(tobeDel);
         return new CourseDeleteResponse(tobeDel.getId(), tobeDel.getName());
     }
 
     @Override
     public CourseUpdateResponse updateCourse(UUID id, CourseUpdateRequest request) {
-        if(!courseRepository.existsById(id)) {
-            throw new CourseIdNotFound();
-        }
-        Course tobeUp  = courseRepository.findById(id).orElseThrow();
+
+        Course tobeUp  = courseRepository.findById(id).orElseThrow(CourseIdNotFound::new);
         tobeUp.setName(request.name());
         tobeUp.setDepartment(request.department());
         courseRepository.save(tobeUp);

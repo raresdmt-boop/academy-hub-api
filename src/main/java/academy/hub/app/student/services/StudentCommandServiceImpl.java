@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Validated
@@ -51,11 +52,9 @@ public class StudentCommandServiceImpl implements StudentCommandService {
 
     @Override
     @Transactional
-    public StudentDeleteResponse deleteStudent(StudentDeleteRequest studentDeleteRequest) {
-        if (!studentRepository.existsById(studentDeleteRequest.id())) {
-            throw new EmailNotFound();
-        }
-        Student s = studentRepository.findById(studentDeleteRequest.id()).orElseThrow();
+    public StudentDeleteResponse deleteStudent(UUID id) {
+
+        Student s = studentRepository.findById(id).orElseThrow(StudentIdNotFound::new);
         studentRepository.delete(s);
         return new StudentDeleteResponse(s.getId(), s.getFirstName(),
                 s.getLastName(), s.getEmail());
@@ -63,24 +62,15 @@ public class StudentCommandServiceImpl implements StudentCommandService {
 
     @Override
     @Transactional
-    public StudentUpdateResponse updateStudent(StudentUpdateRequest studentUpdate) {
-        if(!studentRepository.existsById(studentUpdate.id())){
-            throw new StudentIdNotFound();
-        }
+    public StudentUpdateResponse updateStudent(UUID id, StudentUpdateRequest studentUpdate) {
 
-        Student s = studentRepository.findById(studentUpdate.id()).orElseThrow();
-        if(studentUpdate.firstName() != null && !studentUpdate.firstName().isEmpty()){
-            s.setFirstName(studentUpdate.firstName());
-        }
-        if(studentUpdate.lastName() != null && !studentUpdate.lastName().isEmpty()){
-            s.setLastName(studentUpdate.lastName());
-        }
-        if(studentUpdate.email() != null && !studentUpdate.email().isEmpty()){
-            s.setEmail(studentUpdate.email());
-        }
-        if(studentUpdate.age() > 0){
-            s.setAge(studentUpdate.age());
-        }
+        Student s = studentRepository.findById(id).orElseThrow(StudentIdNotFound::new);
+
+        s.setFirstName(studentUpdate.firstName());
+        s.setLastName(studentUpdate.lastName());
+        s.setEmail(studentUpdate.email());
+        s.setAge(studentUpdate.age());
+
         return new StudentUpdateResponse(s.getId(), s.getFirstName(), s.getLastName(), s.getEmail(), s.getAge());
 
     }
