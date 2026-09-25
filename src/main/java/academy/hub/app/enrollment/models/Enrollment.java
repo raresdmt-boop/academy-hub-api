@@ -3,11 +3,8 @@ package academy.hub.app.enrollment.models;
 import academy.hub.app.course.models.Course;
 import academy.hub.app.student.models.Student;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDate;
 import java.util.UUID;
 

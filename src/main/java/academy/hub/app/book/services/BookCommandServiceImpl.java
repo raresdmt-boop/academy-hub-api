@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @Validated
+@Transactional
 public class BookCommandServiceImpl implements BookCommandService {
 
     private final BookRepository bookRepository;

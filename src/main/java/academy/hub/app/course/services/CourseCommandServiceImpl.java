@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Service
 @Validated
+@Transactional
 public class CourseCommandServiceImpl implements CourseCommandService {
 
     private final CourseRepository courseRepository;

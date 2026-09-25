@@ -40,14 +40,14 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
     @Override
     public List<Student> getStudentsWithAgeGreaterThan(int age) {
-        if(studentRepository.findAllByAgeGreaterThan(age) == null){
+        if(studentRepository.findAllByAgeGreaterThan(age).isEmpty()){
             throw new StudentNotFound();
         }
         return  studentRepository.findAllByAgeGreaterThan(age);
     }
     @Override
     public List<Student> getStudentsWithAgeLessThan(int age) {
-        if(studentRepository.findAllByAgeLessThan(age) == null){
+        if(studentRepository.findAllByAgeLessThan(age).isEmpty()){
             throw new StudentNotFound();
         }
         return studentRepository.findAllByAgeLessThan(age);
@@ -55,7 +55,7 @@ public class StudentQueryServiceImpl implements StudentQueryService {
 
     @Override
     public List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName) {
-        if(studentRepository.findByFirstNameOrderByAgeAsc(firstName) == null){
+        if(studentRepository.findByFirstNameOrderByAgeAsc(firstName).isEmpty()){
             throw new NoStudentsFound();
         }
         return studentRepository.findByFirstNameOrderByAgeAsc(firstName);

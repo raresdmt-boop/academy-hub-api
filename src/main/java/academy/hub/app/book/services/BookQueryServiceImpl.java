@@ -6,12 +6,13 @@ import academy.hub.app.book.models.Book;
 import academy.hub.app.book.repository.BookRepository;
 import academy.hub.app.book.services.interfaces.BookQueryService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Service
 public class BookQueryServiceImpl implements BookQueryService {
 
     private final BookRepository bookRepository;
@@ -33,7 +34,7 @@ public class BookQueryServiceImpl implements BookQueryService {
 
     @Override
     public List<Book> getStudentBooks(UUID id) {
-        if(bookRepository.findByStudentId(id) == null) {
+        if(bookRepository.findByStudentId(id).isEmpty()) {
             throw new NoBookFound();
         }
         return bookRepository.findByStudentId(id);
@@ -41,7 +42,7 @@ public class BookQueryServiceImpl implements BookQueryService {
 
     @Override
     public long countBooksByStudentId(UUID id) {
-        if(bookRepository.findByStudentId(id) == null) {
+        if(bookRepository.findByStudentId(id).isEmpty()) {
             throw new NoBookFound();
         }
         return bookRepository.countByStudentId(id);

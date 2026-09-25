@@ -12,6 +12,7 @@ import academy.hub.app.enrollment.services.interfaces.EnrollmentCommandService;
 import academy.hub.app.student.exceptions.StudentIdNotFound;
 import academy.hub.app.student.repository.StudentRepository;
 import academy.hub.app.student.services.interfaces.StudentQueryService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -20,15 +21,15 @@ import java.util.UUID;
 
 @Service
 @Validated
+@Transactional
 public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
 
     private final EnrollmentRepository enrollmentRepository;
     private final StudentQueryService studentQueryService;
     private final CourseQueryService courseQueryService;
 
-    public EnrollmentCommandServiceImpl(EnrollmentRepository enrollmentRepository, StudentRepository studentRepository, CourseRepository courseRepository, StudentQueryService studentQueryService, CourseQueryService courseQueryService) {
+    public EnrollmentCommandServiceImpl(EnrollmentRepository enrollmentRepository, StudentQueryService studentQueryService, CourseQueryService courseQueryService) {
         this.enrollmentRepository = enrollmentRepository;
-
         this.studentQueryService = studentQueryService;
         this.courseQueryService = courseQueryService;
     }

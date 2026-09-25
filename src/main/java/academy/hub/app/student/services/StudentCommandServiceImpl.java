@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @Validated
+@Transactional
 public class StudentCommandServiceImpl implements StudentCommandService {
 
     private final StudentRepository studentRepository;
@@ -65,6 +66,10 @@ public class StudentCommandServiceImpl implements StudentCommandService {
     public StudentUpdateResponse updateStudent(UUID id, StudentUpdateRequest studentUpdate) {
 
         Student s = studentRepository.findById(id).orElseThrow(StudentIdNotFound::new);
+
+        if(studentRepository.existsByEmail(studentUpdate.email())) {
+            throw new EmailAlreadyUsed();
+        }
 
         s.setFirstName(studentUpdate.firstName());
         s.setLastName(studentUpdate.lastName());
