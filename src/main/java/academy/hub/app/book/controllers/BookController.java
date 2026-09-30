@@ -26,6 +26,10 @@ public class BookController {
         this.bookCommandService = bookCommandService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponse> getBookById(@PathVariable UUID id) {
+        return ResponseEntity.ok(bookQueryService.getBookById(id));
+    }
 
     @GetMapping
     public ResponseEntity<List<BookResponse>> getBooks() {

@@ -1,6 +1,7 @@
 package academy.hub.app.book.services;
 
 import academy.hub.app.book.dtos.BookResponse;
+import academy.hub.app.book.exceptions.BookNotFound;
 import academy.hub.app.book.exceptions.NoBookFound;
 import academy.hub.app.book.models.Book;
 import academy.hub.app.book.repository.BookRepository;
@@ -41,12 +42,20 @@ public class BookQueryServiceImpl implements BookQueryService {
     }
 
     @Override
+    public BookResponse getBookById(UUID id) {
+        Book book = bookRepository.findById(id).orElseThrow(BookNotFound::new);
+        return BookResponse.from(book);
+    }
+
+    @Override
     public long countBooksByStudentId(UUID id) {
         if(bookRepository.findByStudentId(id).isEmpty()) {
             throw new NoBookFound();
         }
         return bookRepository.countByStudentId(id);
     }
+
+
 
 
 }

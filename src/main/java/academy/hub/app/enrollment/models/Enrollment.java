@@ -20,12 +20,12 @@ public class Enrollment {
 
     @Setter
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "student_id", unique = true, nullable = false)
+   @JoinColumn(name = "student_id", nullable = false)
    Student student;
 
     @Setter
    @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "course_id", unique = true, nullable = false)
+   @JoinColumn(name = "course_id", nullable = false)
    Course course;
 
    @Setter

@@ -87,4 +87,10 @@ public class CourseQueryServiceImpl implements CourseQueryService {
         }
         return lista;
     }
+
+    @Override
+    public CourseResponse getResponseById(UUID id) {
+        return CourseResponse.from(courseRepository.findById(id).orElseThrow(NoCourseFound::new));
+    }
+
 }

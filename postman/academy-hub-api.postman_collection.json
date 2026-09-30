@@ -11,38 +11,121 @@
       "name": "Book",
       "item": [
         {
-          "name": "GET all",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://127.0.0.1:8094/api/books",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8094",
-              "path": [
-                "api",
-                "books"
-              ]
+          "name": "CRUD",
+          "item": [
+            {
+              "name": "GET all",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/books",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST create book",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Cei 3 muschetari\",\r\n    \"studentId\": \"f0a25540-b73b-4ba7-8508-e630dfda44a8\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/books",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "books"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE book",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/books/8200fb98-fe4b-42f0-8e01-6927023cbedd",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "books",
+                    "8200fb98-fe4b-42f0-8e01-6927023cbedd"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT update book",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Cei 4 muschetari\",\r\n    \"createdAt\": \"2021-08-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/books/8200fb98-fe4b-42f0-8e01-6927023cbedd",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "books",
+                    "8200fb98-fe4b-42f0-8e01-6927023cbedd"
+                  ]
+                }
+              },
+              "response": []
             }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": ""
-            }
-          },
-          "response": []
+          ]
         }
       ]
     },
@@ -50,12 +133,129 @@
       "name": "Course",
       "item": [
         {
-          "name": "GET all",
+          "name": "CRUD",
+          "item": [
+            {
+              "name": "GET all",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/courses",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST create course",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Magie Avansata\",\r\n    \"department\": \"Hogwarts\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/courses",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT update curs",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Potions\",\r\n    \"department\": \"Advanced Potion Making\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/courses/1fdd8642-4195-4164-82f3-3451e2202456",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "courses",
+                    "1fdd8642-4195-4164-82f3-3451e2202456"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE course",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/courses/8f779e04-d90f-4108-8072-0fa35c0adfd9",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "courses",
+                    "8f779e04-d90f-4108-8072-0fa35c0adfd9"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET course By ID",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://127.0.0.1:8094/api/courses",
+              "raw": "http://127.0.0.1:8094/api/courses/063a2200-208e-4496-b9e8-192b5446f199",
               "protocol": "http",
               "host": [
                 "127",
@@ -66,7 +266,8 @@
               "port": "8094",
               "path": [
                 "api",
-                "courses"
+                "courses",
+                "063a2200-208e-4496-b9e8-192b5446f199"
               ]
             }
           },
@@ -201,6 +402,30 @@
               "response": []
             }
           ]
+        },
+        {
+          "name": "GET enrollment by Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/enrollments/1695ec0c-bb1e-453f-8814-b0f0387e9a85",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "enrollments",
+                "1695ec0c-bb1e-453f-8814-b0f0387e9a85"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -208,10 +433,388 @@
       "name": "Student",
       "item": [
         {
-          "name": "GET all",
+          "name": "CRUD",
+          "item": [
+            {
+              "name": "GET all",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/students",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "students"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST create student",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\": \"Harry\",\r\n    \"lastName\": \"Potter\",\r\n    \"email\": \"harry.potter@hogwarts.edu\",\r\n    \"age\": 15\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/students",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "students"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT update student",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\": \"Ron\",\r\n    \"lastName\": \"Weasley\",\r\n    \"email\": \"harry.potter@hogwarts.edu\",\r\n    \"age\": 16\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/students/37eb13bf-9e00-49c3-a0e4-33b2041cb4d2",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "students",
+                    "37eb13bf-9e00-49c3-a0e4-33b2041cb4d2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE student",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8094/api/students/91457e82-a38f-4a3e-bac8-091958fd064c",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8094",
+                  "path": [
+                    "api",
+                    "students",
+                    "91457e82-a38f-4a3e-bac8-091958fd064c"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET student by Id",
           "request": {
             "method": "GET",
             "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/students/16c845f2-9ba1-4100-bfa1-30ccc1940ee0",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "students",
+                "16c845f2-9ba1-4100-bfa1-30ccc1940ee0"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "errori",
+      "item": [
+        {
+          "name": "404 - id doesnt exist",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/books/02571528-2a57-4dc0-963a-b8103100515d",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "books",
+                "02571528-2a57-4dc0-963a-b8103100515d"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 - id invalid",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/books/1",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "books",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 - required query param",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/students/search",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "students",
+                "search"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 - No Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/nu-exista",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "nu-exista"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 - age incorrect",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"Harry\",\r\n    \"lastName\": \"Potter\",\r\n    \"email\": \"harry.potter@hogwarts.edu\",\r\n    \"age\": 150\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/students",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "409 - Conflict - delete check from CommandService first",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"Harry\",\r\n    \"lastName\": \"Potter\",\r\n    \"email\": \"ana.dumitrescu@gmail.com\",\r\n    \"age\": 22\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/students",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "409 - Email already used",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"Harry\",\r\n    \"lastName\": \"Potter\",\r\n    \"email\": \"ana.dumitrescu@gmail.com\",\r\n    \"age\": 22\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/students",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 - body invalid - toate 4",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"\",\r\n    \"lastName\": \"\",\r\n    \"email\": \"ana.dumitresc\",\r\n    \"age\": 150\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8094/api/students",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8094",
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "400 - JSON stricat",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "http://127.0.0.1:8094/api/students",
               "protocol": "http",

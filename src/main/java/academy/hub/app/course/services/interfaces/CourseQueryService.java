@@ -20,4 +20,6 @@ public interface CourseQueryService {
 
     List<CoursePerDepartmentCount> findAndCountPerDepartment();
 
+    CourseResponse getResponseById(UUID id);
+
 }

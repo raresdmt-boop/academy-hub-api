@@ -10,6 +10,7 @@ public interface BookQueryService {
 
     List<BookResponse> getBooks();
     List<Book> getStudentBooks(UUID id);
+    BookResponse getBookById(UUID id);
 
     long countBooksByStudentId(UUID id);
 }

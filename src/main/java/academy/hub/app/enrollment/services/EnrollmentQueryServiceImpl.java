@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Validated
@@ -31,4 +32,10 @@ public class EnrollmentQueryServiceImpl implements EnrollmentQueryService {
         }
         return enrollments;
     }
+
+    @Override
+    public EnrollmentResponse getEnrollmentById(UUID id) {
+        return EnrollmentResponse.from(enrollmentRepository.getById(id));
+    }
+
 }

@@ -25,6 +25,16 @@ public class StudentController {
         this.studentCommandService = studentCommandService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentResponse> getStudentById(@PathVariable UUID id) {
+        return ResponseEntity.ok(studentQueryService.getResponseById(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<StudentResponse> getStudentByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(studentQueryService.findByEmail(email));
+    }
+
     @GetMapping
     public ResponseEntity<List<StudentResponse>> findAll(){
         return ResponseEntity.ok(studentQueryService.getAll());

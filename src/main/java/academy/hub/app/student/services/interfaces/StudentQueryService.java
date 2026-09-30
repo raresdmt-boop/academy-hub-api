@@ -14,12 +14,19 @@ import java.util.UUID;
 public interface StudentQueryService {
 
     List<Student> getStudents();
+
     Student getOldestStudent();
+
     List<Student> getStudentsWithAgeGreaterThan(int age);
+
     List<Student> getStudentsWithAgeLessThan(int age);
+
     List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName);
+
     Student getStudentById(UUID studentId);
+
     Optional<Student> getById(UUID studentId);
+
     Optional<Student> getByEmail(String email);
 
     //Comparator
@@ -27,9 +34,17 @@ public interface StudentQueryService {
 
     //Queries
     Student getByIdJoinFetchBooks(UUID id);
+
     List<Student> findAllStudentsWithBooks();
+
     List<StudentBookCount> getStudentBookCounts();
+
     List<Student> getStudentsOrderByBooksDesc();
 
     List<StudentResponse> getAll();
+
+    StudentResponse getResponseById(UUID studentId);
+
+    StudentResponse findByEmail(String email);
+
 }

@@ -127,5 +127,13 @@ public class StudentQueryServiceImpl implements StudentQueryService {
         return studentResponseList;
     }
 
+    @Override
+    public StudentResponse getResponseById(UUID studentId) {
+        return StudentResponse.from(studentRepository.findById(studentId).orElseThrow(StudentIdNotFound::new));
+    }
+    @Override
+    public StudentResponse findByEmail(String email) {
+        return StudentResponse.from(studentRepository.findByEmail(email).orElseThrow(StudentNotFound::new));
+    }
 
 }

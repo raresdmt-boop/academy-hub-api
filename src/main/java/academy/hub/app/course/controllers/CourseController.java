@@ -24,6 +24,11 @@ public class CourseController {
         this.courseCommandService = courseCommandService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseResponse> getCourseById(@PathVariable UUID id) {
+        return ResponseEntity.ok(courseQueryService.getResponseById(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<CourseResponse>> getAllCourses() {
     return ResponseEntity.ok(courseQueryService.findAll());

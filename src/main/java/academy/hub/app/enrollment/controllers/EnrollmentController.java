@@ -23,6 +23,11 @@ public class EnrollmentController {
         this.enrollmentCommandService = enrollmentCommandService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EnrollmentResponse> getCourseById(@PathVariable UUID id) {
+        return ResponseEntity.ok(enrollmentQueryService.getEnrollmentById(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<EnrollmentResponse>> getAllEnrollments() {
         return ResponseEntity.ok(enrollmentQueryService.getAllEnrollments());
