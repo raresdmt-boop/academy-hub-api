@@ -32,4 +32,6 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
             order by count(c.name) desc
             """)
     List<CoursePerDepartmentCount> findAndCountPerDepartment();
+
+    Optional<Course> findByNameIgnoreCase(String name);
 }

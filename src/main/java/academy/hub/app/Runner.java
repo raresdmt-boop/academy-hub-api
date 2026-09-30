@@ -19,7 +19,6 @@ import academy.hub.app.enrollment.services.interfaces.EnrollmentQueryService;
 import academy.hub.app.student.comparators.StudentAgeComparator;
 import academy.hub.app.student.dtos.*;
 import academy.hub.app.student.exceptions.StudentNotFound;
-import academy.hub.app.student.factory.StudentFactory;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
 import academy.hub.app.student.services.interfaces.StudentCommandService;
@@ -46,7 +45,6 @@ public class Runner implements CommandLineRunner {
     private final CourseQueryService courseQueryService;
     private final EnrollmentCommandService enrollmentCommandService;
     private final EnrollmentQueryService enrollmentQueryService;
-    private final StudentFactory studentFactory;
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
     private final BookRepository bookRepository;
@@ -57,7 +55,7 @@ public class Runner implements CommandLineRunner {
                   BookCommandService bookCommandService, BookQueryService bookQueryService,
                   CourseCommandService courseCommandService, CourseQueryService courseQueryService,
                   EnrollmentCommandService enrollmentCommandService, EnrollmentQueryService enrollmentQueryService,
-                  StudentFactory studentFactory, CourseRepository courseRepository, StudentRepository studentRepository, BookRepository bookRepository, EnrollmentRepository enrollmentRepository) {
+                   CourseRepository courseRepository, StudentRepository studentRepository, BookRepository bookRepository, EnrollmentRepository enrollmentRepository) {
         this.studentCommandService = studentCommandService;
         this.studentQueryService = studentQueryService;
         this.bookCommandService = bookCommandService;
@@ -66,7 +64,6 @@ public class Runner implements CommandLineRunner {
         this.courseQueryService = courseQueryService;
         this.enrollmentCommandService = enrollmentCommandService;
         this.enrollmentQueryService = enrollmentQueryService;
-        this.studentFactory = studentFactory;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
         this.bookRepository = bookRepository;
@@ -699,13 +696,6 @@ public class Runner implements CommandLineRunner {
 
 
 
-
-    }
-    void factoryTest(){
-        banner("Testing Factory");
-
-        Student newS = studentFactory.createStudentFromText("Bogdan,Horghidan,bgdhrg@gmail.ro,28");
-        System.out.println(newS);
 
     }
 

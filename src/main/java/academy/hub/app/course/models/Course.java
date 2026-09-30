@@ -8,10 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Entity(name="Course")
@@ -90,4 +87,6 @@ public class Course {
                 ", department='" + department + '\'' +
                 '}';
     }
+
+
 }

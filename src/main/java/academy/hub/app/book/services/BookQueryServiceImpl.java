@@ -24,34 +24,29 @@ public class BookQueryServiceImpl implements BookQueryService {
 
     @Override
     public List<BookResponse> getBooks() {
-        List<BookResponse> books = bookRepository.findAll()
+
+
+        return bookRepository.findAll()
                 .stream()
                 .map(BookResponse::from)
                 .toList();
-
-        if (books.isEmpty()) { throw new NoBookFound();}
-        return books;
     }
 
     @Override
     public List<Book> getStudentBooks(UUID id) {
-        if(bookRepository.findByStudentId(id).isEmpty()) {
-            throw new NoBookFound();
-        }
+
         return bookRepository.findByStudentId(id);
     }
 
     @Override
     public BookResponse getBookById(UUID id) {
-        Book book = bookRepository.findById(id).orElseThrow(BookNotFound::new);
-        return BookResponse.from(book);
+
+        return BookResponse.from(bookRepository.findById(id).orElseThrow(BookNotFound::new));
     }
 
     @Override
     public long countBooksByStudentId(UUID id) {
-        if(bookRepository.findByStudentId(id).isEmpty()) {
-            throw new NoBookFound();
-        }
+
         return bookRepository.countByStudentId(id);
     }
 

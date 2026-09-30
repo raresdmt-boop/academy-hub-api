@@ -2,7 +2,6 @@ package academy.hub.app.book.services;
 
 import academy.hub.app.book.dtos.*;
 import academy.hub.app.book.exceptions.BookAlreadyAssignedToThisStudent;
-import academy.hub.app.book.exceptions.BookAlreadyExists;
 import academy.hub.app.book.exceptions.BookNotFound;
 import academy.hub.app.book.models.Book;
 import academy.hub.app.book.repository.BookRepository;
@@ -35,14 +34,13 @@ public class BookCommandServiceImpl implements BookCommandService {
     @Transactional
     public BookCreateResponse createBook(BookCreateRequest bookCreateRequest) {
 
-        if(!bookRepository.findByStudentId(bookCreateRequest.studentId()).isEmpty() &&
-                bookRepository.existsByName(bookCreateRequest.name())) {
+        Student student = studentRepository.findById(bookCreateRequest.studentId()).orElseThrow(StudentNotFound::new);
+
+        if(bookRepository.existsByStudentIdAndName(student.getId(), bookCreateRequest.name())) {
             throw new BookAlreadyAssignedToThisStudent();
         }
 
         LocalDate createdAt = LocalDate.now();
-
-        Student student = studentRepository.findById(bookCreateRequest.studentId()).orElseThrow();
 
         Book newbook = new Book(
                 bookCreateRequest.name(),
@@ -66,7 +64,7 @@ public class BookCommandServiceImpl implements BookCommandService {
         if(!bookRepository.existsById(id)){
             throw new BookNotFound();
         }
-        Book book = bookRepository.findById(id).orElseThrow();
+        Book book = bookRepository.findById(id).orElseThrow(BookNotFound::new);
         bookRepository.delete(book);
         return new BookDeleteResponse(book.getId(), book.getName());
     }

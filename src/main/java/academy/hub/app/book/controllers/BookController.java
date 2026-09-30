@@ -5,6 +5,9 @@ import academy.hub.app.book.dtos.*;
 import academy.hub.app.book.models.Book;
 import academy.hub.app.book.services.interfaces.BookCommandService;
 import academy.hub.app.book.services.interfaces.BookQueryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +35,9 @@ public class BookController {
     }
 
     @GetMapping
+    @Operation(summary = "Lista cartilor",
+    description = "Pe baza goala, raspunde cu 200")
+    @ApiResponse(responseCode = "200", description = "bla bla bla")
     public ResponseEntity<List<BookResponse>> getBooks() {
         return ResponseEntity.ok(bookQueryService.getBooks());
     }

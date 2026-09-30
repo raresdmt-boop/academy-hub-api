@@ -21,4 +21,6 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     List<Book> findByStudentId(UUID id);
     long countByStudentId(UUID id);
+
+    boolean existsByStudentIdAndName(UUID studentId, String name);
 }

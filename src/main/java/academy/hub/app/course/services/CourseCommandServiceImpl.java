@@ -1,8 +1,8 @@
 package academy.hub.app.course.services;
 
 import academy.hub.app.course.dtos.*;
-import academy.hub.app.course.exceptions.CourseIdNotFound;
 import academy.hub.app.course.exceptions.CourseNameAlreadyInUse;
+import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.course.models.Course;
 import academy.hub.app.course.repository.CourseRepository;
 import academy.hub.app.course.services.interfaces.CourseCommandService;
@@ -42,7 +42,7 @@ public class CourseCommandServiceImpl implements CourseCommandService {
 
     @Override
     public CourseDeleteResponse deleteCourse(UUID id) {
-        Course tobeDel  = courseRepository.findById(id).orElseThrow(CourseIdNotFound::new);
+        Course tobeDel  = courseRepository.findById(id).orElseThrow(NoCourseFound::new);
         courseRepository.delete(tobeDel);
         return new CourseDeleteResponse(tobeDel.getId(), tobeDel.getName());
     }
@@ -50,7 +50,10 @@ public class CourseCommandServiceImpl implements CourseCommandService {
     @Override
     public CourseUpdateResponse updateCourse(UUID id, CourseUpdateRequest request) {
 
-        Course tobeUp  = courseRepository.findById(id).orElseThrow(CourseIdNotFound::new);
+        Course tobeUp  = courseRepository.findById(id).orElseThrow(NoCourseFound::new);
+        courseRepository.findByNameIgnoreCase(request.name())
+                .filter(other -> !other.getId().equals(id))
+                .ifPresent(other -> { throw new CourseNameAlreadyInUse(); });
         tobeUp.setName(request.name());
         tobeUp.setDepartment(request.department());
         courseRepository.save(tobeUp);

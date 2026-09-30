@@ -1,6 +1,7 @@
 package academy.hub.app.enrollment.services;
 
 import academy.hub.app.enrollment.dtos.EnrollmentResponse;
+import academy.hub.app.enrollment.exceptions.EnrollmentNotFound;
 import academy.hub.app.enrollment.exceptions.NoEnrollmentsFound;
 import academy.hub.app.enrollment.models.Enrollment;
 import academy.hub.app.enrollment.repository.EnrollmentRepository;
@@ -23,19 +24,16 @@ public class EnrollmentQueryServiceImpl implements EnrollmentQueryService {
 
     @Override
     public List<EnrollmentResponse> getAllEnrollments() {
-        List<EnrollmentResponse> enrollments = enrollmentRepository.findAll()
+
+        return enrollmentRepository.findAll()
                 .stream()
                 .map(EnrollmentResponse::from)
                 .toList();
-        if (enrollments.isEmpty()) {
-            throw new NoEnrollmentsFound();
-        }
-        return enrollments;
     }
 
     @Override
     public EnrollmentResponse getEnrollmentById(UUID id) {
-        return EnrollmentResponse.from(enrollmentRepository.getById(id));
+        return EnrollmentResponse.from(enrollmentRepository.findById(id).orElseThrow(EnrollmentNotFound::new));
     }
 
 }

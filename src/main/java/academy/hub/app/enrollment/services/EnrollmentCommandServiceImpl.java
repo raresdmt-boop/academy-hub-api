@@ -1,7 +1,6 @@
 package academy.hub.app.enrollment.services;
 
-import academy.hub.app.course.exceptions.CourseIdNotFound;
-import academy.hub.app.course.repository.CourseRepository;
+import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.course.services.interfaces.CourseQueryService;
 import academy.hub.app.enrollment.dtos.*;
 import academy.hub.app.enrollment.exceptions.EnrollmentNotFound;
@@ -9,8 +8,7 @@ import academy.hub.app.enrollment.exceptions.StudentAlreadyEnrolledInThisCourse;
 import academy.hub.app.enrollment.models.Enrollment;
 import academy.hub.app.enrollment.repository.EnrollmentRepository;
 import academy.hub.app.enrollment.services.interfaces.EnrollmentCommandService;
-import academy.hub.app.student.exceptions.StudentIdNotFound;
-import academy.hub.app.student.repository.StudentRepository;
+import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.services.interfaces.StudentQueryService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -40,13 +38,6 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
                 enrollmentCreateRequest.courseId())) {
             throw new StudentAlreadyEnrolledInThisCourse();
         }
-        if(studentQueryService.getStudentById(enrollmentCreateRequest.studentId())==null) {
-            throw new StudentIdNotFound();
-        }
-        if(courseQueryService.findById(enrollmentCreateRequest.courseId())==null)
-        {
-            throw new CourseIdNotFound();
-        }
 
         LocalDate currentDate = LocalDate.now();
         Enrollment enrollment = new Enrollment(currentDate);
@@ -66,7 +57,7 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
         }
         Enrollment toDelete = enrollmentRepository
                 .findByStudentIdAndCourseId(edr.studentId(), edr.courseId())
-                .orElseThrow();
+                .orElseThrow(EnrollmentNotFound::new);
         enrollmentRepository.delete(toDelete);
         return new EnrollmentDeleteResponse(toDelete.getId(), toDelete.getStudent().getId(),
                 toDelete.getCourse().getId());
@@ -77,12 +68,13 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
         if(!enrollmentRepository.existsById(id)) {
             throw new EnrollmentNotFound();
         }
-        if(enrollmentRepository.findByStudentIdAndCourseId(eur.studentId(), eur.courseId()).isPresent()) {
-            throw new StudentAlreadyEnrolledInThisCourse();
-        }
-        Enrollment enrollment = enrollmentRepository.findById(id).orElseThrow();
-        enrollment.setCourse(courseQueryService.getById(eur.courseId()).orElseThrow());
-        enrollment.setStudent(studentQueryService.getById(eur.studentId()).orElseThrow());
+        enrollmentRepository
+                .findByStudentIdAndCourseId(eur.studentId(), eur.courseId())
+                .filter(e -> !e.getId().equals(id))
+                .ifPresent(e -> { throw new StudentAlreadyEnrolledInThisCourse(); });
+        Enrollment enrollment = enrollmentRepository.findById(id).orElseThrow(EnrollmentNotFound::new);
+        enrollment.setCourse(courseQueryService.getById(eur.courseId()).orElseThrow(NoCourseFound::new));
+        enrollment.setStudent(studentQueryService.getById(eur.studentId()).orElseThrow(StudentNotFound::new));
         enrollmentRepository.save(enrollment);
         return new EnrollmentUpdateResponse(enrollment.getId(),
                 enrollment.getStudent().getId(),

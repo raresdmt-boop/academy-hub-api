@@ -2,11 +2,10 @@ package academy.hub.app.web;
 
 
 import academy.hub.app.book.exceptions.BookNotFound;
-import academy.hub.app.course.exceptions.CourseIdNotFound;
+import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.enrollment.exceptions.EnrollmentNotFound;
 import academy.hub.app.student.exceptions.EmailAlreadyUsed;
 import academy.hub.app.student.exceptions.EmailNotFound;
-import academy.hub.app.student.exceptions.StudentIdNotFound;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -29,8 +28,9 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({BookNotFound.class, CourseIdNotFound.class, EnrollmentNotFound.class,
-    StudentIdNotFound.class, EmailNotFound.class, StudentNotFound.class})
+    @ExceptionHandler({BookNotFound.class, EnrollmentNotFound.class,
+            StudentNotFound.class, EmailNotFound.class, NoCourseFound.class,
+    })
     public ResponseEntity<ApiError> handleParticularNotFound(RuntimeException exception, HttpServletRequest request) {
         return build(HttpStatus.NOT_FOUND, exception.getMessage(), request, List.of());
     }

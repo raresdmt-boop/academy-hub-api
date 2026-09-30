@@ -3,8 +3,6 @@ package academy.hub.app.student.services;
 
 import academy.hub.app.student.dtos.*;
 import academy.hub.app.student.exceptions.EmailAlreadyUsed;
-import academy.hub.app.student.exceptions.EmailNotFound;
-import academy.hub.app.student.exceptions.StudentIdNotFound;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -55,7 +52,7 @@ public class StudentCommandServiceImpl implements StudentCommandService {
     @Transactional
     public StudentDeleteResponse deleteStudent(UUID id) {
 
-        Student s = studentRepository.findById(id).orElseThrow(StudentIdNotFound::new);
+        Student s = studentRepository.findById(id).orElseThrow(StudentNotFound::new);
         studentRepository.delete(s);
         return new StudentDeleteResponse(s.getId(), s.getFirstName(),
                 s.getLastName(), s.getEmail());
@@ -65,11 +62,13 @@ public class StudentCommandServiceImpl implements StudentCommandService {
     @Transactional
     public StudentUpdateResponse updateStudent(UUID id, StudentUpdateRequest studentUpdate) {
 
-        Student s = studentRepository.findById(id).orElseThrow(StudentIdNotFound::new);
+        Student s = studentRepository.findById(id).orElseThrow(StudentNotFound::new);
 
-        if(studentRepository.existsByEmail(studentUpdate.email())) {
-            throw new EmailAlreadyUsed();
-        }
+        studentRepository.findByEmail(studentUpdate.email())
+                .filter(other -> !other.getId().equals(id))
+                .ifPresent(other -> { throw new EmailAlreadyUsed(); });
+
+
 
         s.setFirstName(studentUpdate.firstName());
         s.setLastName(studentUpdate.lastName());

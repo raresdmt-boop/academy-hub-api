@@ -4,7 +4,6 @@ import academy.hub.app.student.dtos.StudentBookCount;
 import academy.hub.app.student.dtos.StudentResponse;
 import academy.hub.app.student.dtos.StudentSummary;
 import academy.hub.app.student.exceptions.NoStudentsFound;
-import academy.hub.app.student.exceptions.StudentIdNotFound;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
@@ -26,9 +25,6 @@ public class StudentQueryServiceImpl implements StudentQueryService {
 
     @Override
     public List<Student> getStudents() {
-        if(studentRepository.findAll().isEmpty()) {
-            throw new NoStudentsFound();
-        }
         return studentRepository.findAll();
     }
     @Override
@@ -40,9 +36,7 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
     @Override
     public List<Student> getStudentsWithAgeGreaterThan(int age) {
-        if(studentRepository.findAllByAgeGreaterThan(age).isEmpty()){
-            throw new StudentNotFound();
-        }
+
         return  studentRepository.findAllByAgeGreaterThan(age);
     }
     @Override
@@ -55,24 +49,19 @@ public class StudentQueryServiceImpl implements StudentQueryService {
 
     @Override
     public List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName) {
-        if(studentRepository.findByFirstNameOrderByAgeAsc(firstName).isEmpty()){
-            throw new NoStudentsFound();
-        }
+
         return studentRepository.findByFirstNameOrderByAgeAsc(firstName);
     }
 
     @Override
     public Student getStudentById(UUID studentId) {
-        if(studentRepository.findById(studentId).isEmpty()){
-            throw new StudentNotFound();
-        }
-        return studentRepository.findById(studentId).orElseThrow();
+        return studentRepository.findById(studentId).orElseThrow(StudentNotFound::new);
     }
 
     @Override
     public Optional<Student> getById(UUID studentId) {
         if(studentRepository.findById(studentId).isEmpty()){
-            throw new StudentIdNotFound();
+            throw new StudentNotFound();
         }
         return studentRepository.findById(studentId);
     }
@@ -91,7 +80,7 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
     @Override
     public Student getByIdJoinFetchBooks(UUID id) {
-        return studentRepository.findByIdFetchBooks(id).orElseThrow(StudentIdNotFound::new);
+        return studentRepository.findByIdFetchBooks(id).orElseThrow(StudentNotFound::new);
     }
     @Override
     public List<Student> findAllStudentsWithBooks() {
@@ -102,34 +91,27 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
     @Override
     public List<StudentBookCount> getStudentBookCounts(){
-        if(studentRepository.getStudentBookCounts().isEmpty()) {
-            throw new NoStudentsFound();
-        }
+
         return studentRepository.getStudentBookCounts();
     }
     @Override
     public List<Student> getStudentsOrderByBooksDesc() {
-        if(studentRepository.getStudentsOrderByBooksDesc().isEmpty()) {
-            throw new NoStudentsFound();
-        }
+
         return studentRepository.getStudentsOrderByBooksDesc();
     }
 
     @Override
     public List<StudentResponse> getAll() {
-        List<StudentResponse> studentResponseList = studentRepository.findAll()
+
+        return studentRepository.findAll()
                 .stream()
                 .map(StudentResponse::from)
                 .toList();
-        if(studentResponseList.isEmpty()){
-            throw new NoStudentsFound();
-        }
-        return studentResponseList;
     }
 
     @Override
     public StudentResponse getResponseById(UUID studentId) {
-        return StudentResponse.from(studentRepository.findById(studentId).orElseThrow(StudentIdNotFound::new));
+        return StudentResponse.from(studentRepository.findById(studentId).orElseThrow(StudentNotFound::new));
     }
     @Override
     public StudentResponse findByEmail(String email) {
