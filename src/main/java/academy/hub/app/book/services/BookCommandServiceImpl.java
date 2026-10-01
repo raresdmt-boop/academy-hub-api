@@ -9,7 +9,7 @@ import academy.hub.app.book.services.interfaces.BookCommandService;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

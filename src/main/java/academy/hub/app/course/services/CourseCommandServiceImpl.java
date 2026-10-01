@@ -6,7 +6,7 @@ import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.course.models.Course;
 import academy.hub.app.course.repository.CourseRepository;
 import academy.hub.app.course.services.interfaces.CourseCommandService;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

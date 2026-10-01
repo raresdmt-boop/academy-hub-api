@@ -10,7 +10,7 @@ import academy.hub.app.enrollment.repository.EnrollmentRepository;
 import academy.hub.app.enrollment.services.interfaces.EnrollmentCommandService;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.services.interfaces.StudentQueryService;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

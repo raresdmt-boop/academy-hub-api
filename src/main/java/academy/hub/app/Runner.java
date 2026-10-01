@@ -13,12 +13,9 @@ import academy.hub.app.course.services.interfaces.CourseQueryService;
 import academy.hub.app.enrollment.dtos.*;
 import academy.hub.app.enrollment.models.Enrollment;
 import academy.hub.app.enrollment.repository.EnrollmentRepository;
-import academy.hub.app.enrollment.services.EnrollmentQueryServiceImpl;
 import academy.hub.app.enrollment.services.interfaces.EnrollmentCommandService;
 import academy.hub.app.enrollment.services.interfaces.EnrollmentQueryService;
-import academy.hub.app.student.comparators.StudentAgeComparator;
 import academy.hub.app.student.dtos.*;
-import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
 import academy.hub.app.student.repository.StudentRepository;
 import academy.hub.app.student.services.interfaces.StudentCommandService;
@@ -26,7 +23,6 @@ import academy.hub.app.student.services.interfaces.StudentQueryService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -37,33 +33,25 @@ import java.util.UUID;
 @Component
 public class Runner implements CommandLineRunner {
 
-    private final StudentCommandService studentCommandService;
     private final StudentQueryService studentQueryService;
-    private final BookCommandService bookCommandService;
-    private final BookQueryService bookQueryService;
     private final CourseCommandService courseCommandService;
     private final CourseQueryService courseQueryService;
     private final EnrollmentCommandService enrollmentCommandService;
-    private final EnrollmentQueryService enrollmentQueryService;
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
     private final BookRepository bookRepository;
     private final EnrollmentRepository enrollmentRepository;
 
 
-    public Runner(StudentCommandService studentCommandService, StudentQueryService studentQueryService,
-                  BookCommandService bookCommandService, BookQueryService bookQueryService,
+    public Runner(StudentQueryService studentQueryService,
                   CourseCommandService courseCommandService, CourseQueryService courseQueryService,
-                  EnrollmentCommandService enrollmentCommandService, EnrollmentQueryService enrollmentQueryService,
-                   CourseRepository courseRepository, StudentRepository studentRepository, BookRepository bookRepository, EnrollmentRepository enrollmentRepository) {
-        this.studentCommandService = studentCommandService;
+                  EnrollmentCommandService enrollmentCommandService, CourseRepository courseRepository,
+                  StudentRepository studentRepository, BookRepository bookRepository,
+                  EnrollmentRepository enrollmentRepository) {
         this.studentQueryService = studentQueryService;
-        this.bookCommandService = bookCommandService;
-        this.bookQueryService = bookQueryService;
         this.courseCommandService = courseCommandService;
         this.courseQueryService = courseQueryService;
         this.enrollmentCommandService = enrollmentCommandService;
-        this.enrollmentQueryService = enrollmentQueryService;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
         this.bookRepository = bookRepository;
@@ -549,31 +537,6 @@ public class Runner implements CommandLineRunner {
 //        StudentDeleteRequest delStu = new StudentDeleteRequest(scr.id(), scr.email());
 //        StudentDeleteResponse sdr = studentCommandService.deleteStudent(delStu);
 //        System.out.println("Student " + sdr.firstName() + " " + sdr.lastName() + " has been deleted.");
-    }
-    void sqsTEST(){
-        banner("StudentQueryService TEST");
-        List<Student> students = studentQueryService.getStudents();
-        for(Student s: students){
-            System.out.println(s.getFirstName() + " " + s.getLastName());
-        }
-
-        Student oldestStudent = studentQueryService.getOldestStudent();
-        System.out.println(oldestStudent.getFirstName() + " " + oldestStudent.getLastName());
-
-        students = studentQueryService.getStudentsWithAgeGreaterThan(25);
-        for(Student s: students){
-            System.out.println(s.getFirstName() + " " + s.getLastName());
-        }
-        students = studentQueryService.getStudentsWithAgeLessThan(25);
-        for(Student s: students){
-            System.out.println(s.getFirstName() + " " + s.getLastName());
-        }
-        List<StudentSummary> stusum = studentQueryService.findByFirstNameOrderByAgeAsc("Rares");
-        for(StudentSummary s: stusum){
-            System.out.println(s.getFirstName()+" "+ s.getEmail());
-        }
-
-        System.out.println(studentQueryService.getBestStudentWithComparator(new StudentAgeComparator()));
     }
     void bcsTEST(){
 //        banner("BookCommandService TEST");
