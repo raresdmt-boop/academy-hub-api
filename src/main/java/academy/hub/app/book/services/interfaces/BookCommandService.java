@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface BookCommandService {
 
     BookCreateResponse createBook(@Valid BookCreateRequest bookCreateRequest);
-    BookDeleteResponse deletebook(@Valid UUID id);
-    BookUpdateResponse updatebook(@Valid UUID id, @Valid BookUpdateRequest bookUpdateRequest);
+    BookDeleteResponse deleteBook(@Valid UUID id);
+    BookUpdateResponse updateBook(@Valid UUID id, @Valid BookUpdateRequest bookUpdateRequest);
 }

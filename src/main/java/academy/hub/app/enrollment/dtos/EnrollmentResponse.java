@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record EnrollmentResponse(
-        UUID id,
+        UUID enrollmentId,
         String studentName,
         String courseName,
         LocalDate createdAt

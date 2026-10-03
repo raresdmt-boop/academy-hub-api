@@ -4,11 +4,11 @@ import academy.hub.app.book.dtos.*;
 import academy.hub.app.book.exceptions.BookAlreadyAssignedToThisStudent;
 import academy.hub.app.book.exceptions.BookNotFound;
 import academy.hub.app.book.models.Book;
-import academy.hub.app.book.repository.BookRepository;
+import academy.hub.app.book.repositories.BookRepository;
 import academy.hub.app.book.services.interfaces.BookCommandService;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
-import academy.hub.app.student.repository.StudentRepository;
+import academy.hub.app.student.repositories.StudentRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +18,6 @@ import java.util.UUID;
 
 @Service
 @Validated
-@Transactional
 public class BookCommandServiceImpl implements BookCommandService {
 
     private final BookRepository bookRepository;
@@ -60,7 +59,7 @@ public class BookCommandServiceImpl implements BookCommandService {
     }
 
     @Override
-    public BookDeleteResponse deletebook(UUID id) {
+    public BookDeleteResponse deleteBook(UUID id) {
         if(!bookRepository.existsById(id)){
             throw new BookNotFound();
         }
@@ -70,13 +69,22 @@ public class BookCommandServiceImpl implements BookCommandService {
     }
 
     @Override
-    public BookUpdateResponse updatebook(UUID id, BookUpdateRequest bookUpdateRequest) {
+    public BookUpdateResponse updateBook(
+            UUID id,
+            BookUpdateRequest bookUpdateRequest) {
 
-        Book book = bookRepository.findById(id).orElseThrow(BookNotFound::new);
+        Book book = bookRepository.findById(id)
+                .orElseThrow(BookNotFound::new);
+
         book.setName(bookUpdateRequest.name());
-        book.setCreatedAt(bookUpdateRequest.createdAt());
+
         bookRepository.save(book);
-        return new BookUpdateResponse(book.getId(), book.getName(), book.getCreatedAt());
+
+        return new BookUpdateResponse(
+                book.getId(),
+                book.getName(),
+                book.getCreatedAt()
+        );
     }
 
 

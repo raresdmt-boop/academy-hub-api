@@ -4,5 +4,8 @@ import academy.hub.app.enrollment.models.Enrollment;
 
 import java.util.UUID;
 
-public record EnrollmentUpdateResponse(UUID id, UUID studentId, UUID courseId) {
+public record EnrollmentUpdateResponse(
+        UUID enrollmentId,
+        UUID studentId,
+        UUID courseId) {
 }

@@ -8,6 +8,10 @@ import java.util.UUID;
 public interface EnrollmentQueryService {
 
     List<EnrollmentResponse> getAllEnrollments();
+    List<EnrollmentResponse> getEnrollmentsByStudentId(UUID studentId);
+    List<EnrollmentResponse> getEnrollmentsByCourseId(UUID courseId);
+
+    long countEnrollmentsByCourseId(UUID courseId);
 
     EnrollmentResponse getEnrollmentById(UUID id);
 

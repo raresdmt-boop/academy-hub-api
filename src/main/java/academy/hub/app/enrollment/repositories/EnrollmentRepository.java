@@ -1,4 +1,4 @@
-package academy.hub.app.enrollment.repository;
+package academy.hub.app.enrollment.repositories;
 
 import academy.hub.app.enrollment.models.Enrollment;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -13,9 +13,18 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
     boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
     boolean existsById(UUID id);
     boolean existsByCourseId(UUID courseId);
+
     Optional<Enrollment> findByStudentIdAndCourseId(UUID studentId, UUID courseId);
+
+    long countByCourseId(UUID courseId);
 
     @EntityGraph(attributePaths = {"student", "course"})
     List<Enrollment> findAll();
+
+    @EntityGraph(attributePaths = {"student", "course"})
+    List<Enrollment> findByStudentId(UUID studentId);
+
+    @EntityGraph(attributePaths = {"student", "course"})
+    List<Enrollment> findByCourseId(UUID courseId);
 
 }

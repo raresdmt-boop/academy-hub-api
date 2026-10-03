@@ -1,7 +1,7 @@
 package academy.hub.app.course.exceptions;
 
 public class CourseHasEnrollments extends RuntimeException {
-  public CourseHasEnrollments(String message) {
-    super(message);
-  }
+    public CourseHasEnrollments() {
+        super(ExceptionConstants.COURSE_HAS_ENROLLMENTS);
+    }
 }

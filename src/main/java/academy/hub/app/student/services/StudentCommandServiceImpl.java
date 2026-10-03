@@ -5,7 +5,7 @@ import academy.hub.app.student.dtos.*;
 import academy.hub.app.student.exceptions.EmailAlreadyUsed;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
-import academy.hub.app.student.repository.StudentRepository;
+import academy.hub.app.student.repositories.StudentRepository;
 import academy.hub.app.student.services.interfaces.StudentCommandService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Service
 @Validated
-@Transactional
 public class StudentCommandServiceImpl implements StudentCommandService {
 
     private final StudentRepository studentRepository;

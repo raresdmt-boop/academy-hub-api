@@ -1,9 +1,7 @@
-package academy.hub.app.student.repository;
+package academy.hub.app.student.repositories;
 
 import academy.hub.app.student.dtos.StudentBookCount;
-import academy.hub.app.student.dtos.StudentSummary;
 import academy.hub.app.student.models.Student;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +22,7 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
     List<Student> findAllByAgeGreaterThan(int age);
     List<Student> findAllByAgeLessThan(int age);
     Optional<Student> findByEmail(String email);
-    List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName);
+    List<Student> findByFirstNameOrderByAgeAsc(String firstName);
 
     @Query("select s from Student s left join fetch s.books where s.id = :id")
     Optional<Student> findByIdFetchBooks(@Param("id") UUID id);

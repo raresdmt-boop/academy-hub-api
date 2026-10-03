@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface EnrollmentCommandService {
 
     EnrollmentCreateResponse createEnrollment(@Valid EnrollmentCreateRequest enrollmentCreateRequest);
-    EnrollmentDeleteResponse deleteEnrollment(@Valid EnrollmentDeleteRequest enrollmentDeleteRequest);
+    EnrollmentDeleteResponse deleteEnrollment(UUID id);
     EnrollmentUpdateResponse updateEnrollment(UUID id, @Valid EnrollmentUpdateRequest eur);
 
 }

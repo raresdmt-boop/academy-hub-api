@@ -2,16 +2,14 @@ package academy.hub.app.course.services;
 
 import academy.hub.app.course.dtos.CoursePerDepartmentCount;
 import academy.hub.app.course.dtos.CourseResponse;
-import academy.hub.app.course.dtos.CourseSummary;
 import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.course.models.Course;
-import academy.hub.app.course.repository.CourseRepository;
+import academy.hub.app.course.repositories.CourseRepository;
 import academy.hub.app.course.services.interfaces.CourseQueryService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,10 +33,11 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     }
 
     @Override
-    public List<Course> findByDepartment(String department) {
+    public List<CourseResponse> findByDepartment(String department) {
 
         return courseRepository.findByDepartment(department)
                 .stream()
+                .map(CourseResponse::from)
                 .toList();
     }
 
@@ -49,22 +48,24 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     }
 
     @Override
-    public List<CourseSummary> findByDepartmentOrderByNameAsc(String department) {
+    public List<CourseResponse> findByDepartmentOrderByNameAsc(String department) {
 
         return courseRepository.findByDepartmentOrderByNameAsc(department)
                 .stream()
+                .map(CourseResponse::from)
                 .toList();
     }
 
     @Override
     public Course findById(UUID id) {
-
-        return courseRepository.findById(id).orElseThrow(NoCourseFound::new);
+        return courseRepository.findById(id)
+                .orElseThrow(NoCourseFound::new);
     }
 
     @Override
-    public Optional<Course> getById(UUID id) {
-        return Optional.ofNullable(courseRepository.findById(id).orElseThrow(NoCourseFound::new));
+    public Course getById(UUID id) {
+        return courseRepository.findById(id)
+                .orElseThrow(NoCourseFound::new);
     }
 
     @Override

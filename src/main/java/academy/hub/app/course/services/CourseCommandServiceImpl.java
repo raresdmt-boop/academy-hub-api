@@ -1,11 +1,13 @@
 package academy.hub.app.course.services;
 
 import academy.hub.app.course.dtos.*;
+import academy.hub.app.course.exceptions.CourseHasEnrollments;
 import academy.hub.app.course.exceptions.CourseNameAlreadyInUse;
 import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.course.models.Course;
-import academy.hub.app.course.repository.CourseRepository;
+import academy.hub.app.course.repositories.CourseRepository;
 import academy.hub.app.course.services.interfaces.CourseCommandService;
+import academy.hub.app.enrollment.repositories.EnrollmentRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +20,11 @@ import java.util.UUID;
 public class CourseCommandServiceImpl implements CourseCommandService {
 
     private final CourseRepository courseRepository;
-    public CourseCommandServiceImpl(CourseRepository courseRepository) {
+    private final EnrollmentRepository enrollmentRepository;
+
+    public CourseCommandServiceImpl(CourseRepository courseRepository, EnrollmentRepository enrollmentRepository) {
         this.courseRepository = courseRepository;
+        this.enrollmentRepository = enrollmentRepository;
     }
 
 
@@ -42,9 +47,20 @@ public class CourseCommandServiceImpl implements CourseCommandService {
 
     @Override
     public CourseDeleteResponse deleteCourse(UUID id) {
-        Course tobeDel  = courseRepository.findById(id).orElseThrow(NoCourseFound::new);
+
+        Course tobeDel  = courseRepository.findById(id)
+                .orElseThrow(NoCourseFound::new);
+
+        if(enrollmentRepository.existsByCourseId(tobeDel.getId())) {
+            throw new CourseHasEnrollments();
+        }
+
         courseRepository.delete(tobeDel);
-        return new CourseDeleteResponse(tobeDel.getId(), tobeDel.getName());
+
+        return new CourseDeleteResponse(
+                tobeDel.getId(),
+                tobeDel.getName()
+        );
     }
 
     @Override

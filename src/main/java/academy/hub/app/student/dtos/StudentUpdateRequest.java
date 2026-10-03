@@ -16,7 +16,6 @@ public record StudentUpdateRequest(
         @Email(message = "email must be a valid email address")
         String email,
 
-        @NotNull(message="Age is required for update")
         @Positive(message = "Age must be positive")
         int age) {
 }

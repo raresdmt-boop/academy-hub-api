@@ -1,7 +1,6 @@
-package academy.hub.app.course.repository;
+package academy.hub.app.course.repositories;
 
 import academy.hub.app.course.dtos.CoursePerDepartmentCount;
-import academy.hub.app.course.dtos.CourseSummary;
 import academy.hub.app.course.models.Course;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +19,7 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
 
     List<Course> findByDepartment(String department);
     long countByDepartment(String department);
-    List<CourseSummary> findByDepartmentOrderByNameAsc(String department);
+    List<Course> findByDepartmentOrderByNameAsc(String department);
 
     @EntityGraph(attributePaths = "enrollments")
     List<Course> findAll();

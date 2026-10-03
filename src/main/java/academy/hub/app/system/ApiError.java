@@ -1,4 +1,4 @@
-package academy.hub.app.sistem;
+package academy.hub.app.system;
 
 import java.time.Instant;
 import java.util.List;

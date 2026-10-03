@@ -1,7 +1,6 @@
-package academy.hub.app.book.repository;
+package academy.hub.app.book.repositories;
 
 import academy.hub.app.book.models.Book;
-import jakarta.validation.Valid;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

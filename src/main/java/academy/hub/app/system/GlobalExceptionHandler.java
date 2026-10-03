@@ -1,4 +1,4 @@
-package academy.hub.app.sistem;
+package academy.hub.app.system;
 
 
 import academy.hub.app.book.exceptions.BookAlreadyAssignedToThisStudent;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -81,22 +80,6 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler(HandlerMethodValidationException.class)
-    public ResponseEntity<ApiError> handleParamValidation(HandlerMethodValidationException exception,
-                                                          HttpServletRequest request) {
-
-        List<String> details = exception.getParameterValidationResults().stream()
-                .flatMap(result -> result.getResolvableErrors().stream()
-                        .map(error -> result.getMethodParameter().getParameterName() + ": "
-                                + error.getDefaultMessage()))
-                .sorted()
-                .toList();
-
-        return build(HttpStatus.BAD_REQUEST, "Validation failed", request, details);
-    }
-
-
-
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiError> handleTypeMismatch(MethodArgumentTypeMismatchException exception,
                                                        HttpServletRequest request) {
@@ -116,13 +99,17 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, message, request, List.of());
     }
 
-
-
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiError> handleDataIntegrity(DataIntegrityViolationException exception,
-                                                        HttpServletRequest request) {
+    public ResponseEntity<ApiError> handleDataIntegrityViolation(
+            DataIntegrityViolationException exception,
+            HttpServletRequest request) {
 
-        return build(HttpStatus.CONFLICT, "Request violates a database constraint", request, List.of());
+        return build(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "A database integrity error occurred",
+                request,
+                List.of()
+        );
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
@@ -138,7 +125,6 @@ public class GlobalExceptionHandler {
 
         return build(HttpStatus.BAD_REQUEST, "Malformed JSON request", request, List.of());
     }
-
 
 
 

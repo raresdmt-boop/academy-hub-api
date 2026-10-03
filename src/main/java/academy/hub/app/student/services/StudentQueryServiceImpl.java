@@ -2,11 +2,9 @@ package academy.hub.app.student.services;
 
 import academy.hub.app.student.dtos.StudentBookCount;
 import academy.hub.app.student.dtos.StudentResponse;
-import academy.hub.app.student.dtos.StudentSummary;
-import academy.hub.app.student.exceptions.NoStudentsFound;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import academy.hub.app.student.models.Student;
-import academy.hub.app.student.repository.StudentRepository;
+import academy.hub.app.student.repositories.StudentRepository;
 import academy.hub.app.student.services.interfaces.StudentQueryService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -28,29 +26,37 @@ public class StudentQueryServiceImpl implements StudentQueryService {
         return studentRepository.findAll();
     }
     @Override
-    public Student getOldestStudent() {
-        if(studentRepository.findTop1ByOrderByAgeDesc() == null) {
+    public StudentResponse getOldestStudent() {
+
+        Student student = studentRepository.findTop1ByOrderByAgeDesc();
+
+        if(student == null) {
             throw new StudentNotFound();
         }
-        return studentRepository.findTop1ByOrderByAgeDesc();
+        return StudentResponse.from(student);
     }
     @Override
-    public List<Student> getStudentsWithAgeGreaterThan(int age) {
-
-        return  studentRepository.findAllByAgeGreaterThan(age);
+    public List<StudentResponse> getStudentsWithAgeGreaterThan(int age) {
+        return  studentRepository.findAllByAgeGreaterThan(age)
+                .stream()
+                .map(StudentResponse::from)
+                .toList();
     }
     @Override
-    public List<Student> getStudentsWithAgeLessThan(int age) {
-        if(studentRepository.findAllByAgeLessThan(age).isEmpty()){
-            throw new StudentNotFound();
-        }
-        return studentRepository.findAllByAgeLessThan(age);
+    public List<StudentResponse> getStudentsWithAgeLessThan(int age) {
+        return studentRepository.findAllByAgeLessThan(age)
+                .stream()
+                .map(StudentResponse::from)
+                .toList();
     }
 
     @Override
-    public List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName) {
+    public List<StudentResponse> findByFirstNameOrderByAgeAsc(String firstName) {
 
-        return studentRepository.findByFirstNameOrderByAgeAsc(firstName);
+        return studentRepository.findByFirstNameOrderByAgeAsc(firstName)
+                .stream()
+                .map(StudentResponse::from)
+                .toList();
     }
 
     @Override
@@ -59,19 +65,15 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
 
     @Override
-    public Optional<Student> getById(UUID studentId) {
-        if(studentRepository.findById(studentId).isEmpty()){
-            throw new StudentNotFound();
-        }
-        return studentRepository.findById(studentId);
+    public Student getById(UUID studentId) {
+        return studentRepository.findById(studentId)
+                .orElseThrow(StudentNotFound::new);
     }
 
     @Override
-    public Optional<Student> getByEmail(String email) {
-        if(studentRepository.getByEmail(email).isEmpty()){
-            throw new StudentNotFound();
-        }
-        return studentRepository.getByEmail(email);
+    public Student getByEmail(String email) {
+        return studentRepository.findByEmail(email)
+                .orElseThrow(StudentNotFound::new);
     }
 
     @Override
@@ -84,9 +86,6 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
     @Override
     public List<Student> findAllStudentsWithBooks() {
-        if(studentRepository.findAllStudentsWithBooks().isEmpty()) {
-            throw new NoStudentsFound();
-        }
         return studentRepository.findAllStudentsWithBooks();
     }
     @Override
@@ -95,9 +94,12 @@ public class StudentQueryServiceImpl implements StudentQueryService {
         return studentRepository.getStudentBookCounts();
     }
     @Override
-    public List<Student> getStudentsOrderByBooksDesc() {
+    public List<StudentResponse> getStudentsOrderByBooksDesc() {
 
-        return studentRepository.getStudentsOrderByBooksDesc();
+        return studentRepository.getStudentsOrderByBooksDesc()
+                .stream()
+                .map(StudentResponse::from)
+                .toList();
     }
 
     @Override
