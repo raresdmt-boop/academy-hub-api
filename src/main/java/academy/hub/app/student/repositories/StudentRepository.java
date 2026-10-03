@@ -23,8 +23,7 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
     Student findTop1ByOrderByAgeDesc();
     List<Student> findAllByAgeGreaterThan(int age);
     List<Student> findAllByAgeLessThan(int age);
-    Optional<Student> getByEmail(String email);
-
+    Optional<Student> findByEmail(String email);
     List<StudentSummary> findByFirstNameOrderByAgeAsc(String firstName);
 
     @Query("select s from Student s left join fetch s.books where s.id = :id")
@@ -48,5 +47,4 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
     List<Student> findAll();
 
 
-    Optional<Student> findByEmail(String email);
 }

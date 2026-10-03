@@ -1,11 +1,14 @@
 package academy.hub.app.sistem;
 
 
+import academy.hub.app.book.exceptions.BookAlreadyAssignedToThisStudent;
 import academy.hub.app.book.exceptions.BookNotFound;
+import academy.hub.app.course.exceptions.CourseHasEnrollments;
+import academy.hub.app.course.exceptions.CourseNameAlreadyInUse;
 import academy.hub.app.course.exceptions.NoCourseFound;
 import academy.hub.app.enrollment.exceptions.EnrollmentNotFound;
+import academy.hub.app.enrollment.exceptions.StudentAlreadyEnrolledInThisCourse;
 import academy.hub.app.student.exceptions.EmailAlreadyUsed;
-import academy.hub.app.student.exceptions.EmailNotFound;
 import academy.hub.app.student.exceptions.StudentNotFound;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -29,7 +32,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({BookNotFound.class, EnrollmentNotFound.class,
-            StudentNotFound.class, EmailNotFound.class, NoCourseFound.class,
+            StudentNotFound.class, NoCourseFound.class,
     })
     public ResponseEntity<ApiError> handleParticularNotFound(RuntimeException exception, HttpServletRequest request) {
         return build(HttpStatus.NOT_FOUND, exception.getMessage(), request, List.of());
@@ -47,9 +50,23 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Validation failed", request, details);
     }
 
-    @ExceptionHandler(EmailAlreadyUsed.class)
-    public ResponseEntity<ApiError> handleConflict(EmailAlreadyUsed exception, HttpServletRequest request) {
-        return build(HttpStatus.CONFLICT, exception.getMessage(), request, List.of());
+    @ExceptionHandler({
+            EmailAlreadyUsed.class,
+            CourseNameAlreadyInUse.class,
+            StudentAlreadyEnrolledInThisCourse.class,
+            BookAlreadyAssignedToThisStudent.class,
+            CourseHasEnrollments.class
+    })
+    public ResponseEntity<ApiError> handleConflict(
+            RuntimeException exception,
+            HttpServletRequest request) {
+
+        return build(
+                HttpStatus.CONFLICT,
+                exception.getMessage(),
+                request,
+                List.of()
+        );
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

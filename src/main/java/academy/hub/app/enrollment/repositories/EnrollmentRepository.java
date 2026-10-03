@@ -12,6 +12,7 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
 
     boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
     boolean existsById(UUID id);
+    boolean existsByCourseId(UUID courseId);
     Optional<Enrollment> findByStudentIdAndCourseId(UUID studentId, UUID courseId);
 
     @EntityGraph(attributePaths = {"student", "course"})
