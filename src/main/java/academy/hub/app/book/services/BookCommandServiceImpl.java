@@ -33,9 +33,15 @@ public class BookCommandServiceImpl implements BookCommandService {
     @Transactional
     public BookCreateResponse createBook(BookCreateRequest bookCreateRequest) {
 
-        Student student = studentRepository.findById(bookCreateRequest.studentId()).orElseThrow(StudentNotFound::new);
+        Student student = studentRepository
+                .findById(bookCreateRequest.studentId())
+                .orElseThrow(StudentNotFound::new);
 
-        if(bookRepository.existsByStudentIdAndName(student.getId(), bookCreateRequest.name())) {
+        if(bookRepository
+                .existsByStudentIdAndName(
+                        student.getId(),
+                        bookCreateRequest.name())
+        ) {
             throw new BookAlreadyAssignedToThisStudent();
         }
 
@@ -48,24 +54,28 @@ public class BookCommandServiceImpl implements BookCommandService {
 
         student.addBook(newbook);
 
-        bookRepository.save(newbook);
+        Book savedBook = bookRepository.save(newbook);
 
         return new BookCreateResponse(
-                newbook.getId(),
-                newbook.getName(),
-                newbook.getCreatedAt()
+                savedBook.getId(),
+                savedBook.getName(),
+                savedBook.getCreatedAt()
         );
 
     }
 
     @Override
     public BookDeleteResponse deleteBook(UUID id) {
-        if(!bookRepository.existsById(id)){
-            throw new BookNotFound();
-        }
-        Book book = bookRepository.findById(id).orElseThrow(BookNotFound::new);
+
+        Book book = bookRepository.findById(id)
+                .orElseThrow(BookNotFound::new);
+
         bookRepository.delete(book);
-        return new BookDeleteResponse(book.getId(), book.getName());
+
+        return new BookDeleteResponse(
+                book.getId(),
+                book.getName()
+        );
     }
 
     @Override

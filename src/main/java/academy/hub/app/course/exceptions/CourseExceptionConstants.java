@@ -1,6 +1,6 @@
 package academy.hub.app.course.exceptions;
 
-public class ExceptionConstants {
+public class CourseExceptionConstants {
 
     public static final String COURSE_NAME_ALREADY_IN_USE = "Course name already in use";
     public static final String NO_COURSE_FOUND = "No course found";
